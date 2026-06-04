@@ -1,0 +1,3082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoBike — Ride Your Way</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c27;
+      --surface3: #242433;
+      --accent: #ff5c1a;
+      --accent2: #ff8c42;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --text: #f0f0f8;
+      --muted: #8888aa;
+      --border: rgba(255, 255, 255, 0.07);
+      --radius: 16px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --glow: 0 0 40px rgba(255, 92, 26, 0.15);
+      --header-h: 130px;
+      --ff-head: 'Syne', sans-serif;
+      --ff-body: 'DM Sans', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    /* ═══ SCROLLBAR ═══ */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 3px;
+    }
+
+    /* ═══ HEADER ═══ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px 12px;
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0800 100%);
+      border-bottom: 1px solid rgba(255, 92, 26, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-bar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=30') center/cover;
+      opacity: 0.08;
+    }
+
+    .logo-bar::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 92, 26, 0.25) 0%, transparent 70%);
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 20px rgba(255, 92, 26, 0.5);
+    }
+
+    .logo-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-text h1 {
+      font-family: var(--ff-head);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: transparent;
+    }
+
+    .search-bar input {
+      flex: 1;
+      max-width: 360px;
+      padding: 10px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--ff-body);
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .search-bar input::placeholder {
+      color: var(--muted);
+    }
+
+    .search-bar input:focus {
+      border-color: rgba(255, 92, 26, 0.5);
+      background: var(--surface3);
+      box-shadow: 0 0 0 3px rgba(255, 92, 26, 0.08);
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--ff-body);
+      font-size: 13px;
+      font-weight: 500;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      background: var(--surface3);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 16px rgba(255, 92, 26, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 92, 26, 0.4);
+    }
+
+    .btn-icon {
+      padding: 10px 14px;
+      background: var(--surface2);
+      color: var(--accent);
+      border: 1px solid rgba(255, 92, 26, 0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 92, 26, 0.1);
+    }
+
+    /* ═══ MAIN LAYOUT ═══ */
+    main {
+      padding-top: var(--header-h);
+      min-height: 100vh;
+    }
+
+    /* ═══ TOOLBAR ═══ */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: var(--ff-body);
+      font-weight: 500;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.25);
+    }
+
+    .sort-select {
+      margin-left: auto;
+      padding: 8px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--ff-body);
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .sort-select option {
+      background: var(--surface2);
+    }
+
+    .vehicle-count {
+      padding: 12px 24px 0;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .vehicle-count strong {
+      color: var(--accent);
+    }
+
+    /* ═══ VEHICLE GRID ═══ */
+    #vehicle-list {
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-state h3 {
+      font-family: var(--ff-head);
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ═══ VEHICLE CARD ═══ */
+    .vehicle-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .vehicle-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 92, 26, 0.3);
+      box-shadow: var(--shadow), var(--glow);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 200px;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.5s;
+    }
+
+    .vehicle-card:hover .card-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-avail {
+      background: rgba(34, 197, 94, 0.85);
+      color: white;
+    }
+
+    .badge-busy {
+      background: rgba(239, 68, 68, 0.85);
+      color: white;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(10, 10, 15, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #888;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    .fav-btn:hover,
+    .fav-btn.active {
+      color: #ef4444;
+    }
+
+    .fav-btn.active i {
+      font-weight: 900;
+    }
+
+    .card-dist-tag {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      padding: 4px 10px;
+      background: rgba(10, 10, 15, 0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 6px;
+      font-size: 11px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .card-type-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 92, 26, 0.12);
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+
+    .card-body h2 {
+      font-family: var(--ff-head);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .card-loc {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .card-stars {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .stars {
+      color: var(--amber);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .rating-val {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-price {
+      font-family: var(--ff-head);
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .card-price span {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      font-family: var(--ff-body);
+    }
+
+    .book-btn {
+      padding: 8px 18px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--ff-body);
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .book-btn:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+
+    /* ═══ LOADING SKELETON ═══ */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    .skel-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .skel-img {
+      height: 200px;
+    }
+
+    .skel-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skel-line-l {
+      height: 16px;
+      width: 70%;
+    }
+
+    .skel-line-m {
+      height: 13px;
+      width: 45%;
+    }
+
+    .skel-line-s {
+      height: 13px;
+      width: 30%;
+    }
+
+    /* ═══ OFFERS SECTION ═══ */
+    .offers-section {
+      padding: 32px 24px 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .offers-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 8px;
+    }
+
+    .offers-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .offer-banner {
+      min-width: 280px;
+      max-width: 320px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid var(--border);
+    }
+
+    .offer-banner:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .offer-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .offer-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 40%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    .offer-discount {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--accent);
+      color: white;
+      font-family: var(--ff-head);
+      font-size: 15px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.4);
+    }
+
+    .offer-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 16px;
+    }
+
+    .offer-content h3 {
+      font-family: var(--ff-head);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: white;
+    }
+
+    .offer-content p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .claim-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      background: white;
+      color: #0a0a0f;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      border: none;
+      font-family: var(--ff-body);
+    }
+
+    .claim-btn:hover {
+      background: var(--accent2);
+      color: white;
+      transform: scale(1.03);
+    }
+
+    /* ═══ FOOTER PAD ═══ */
+    .footer-pad {
+      height: 40px;
+    }
+
+    /* ═══ MODAL OVERLAY ═══ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      width: 100%;
+      max-width: 620px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid var(--border);
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .modal-drag {
+      width: 40px;
+      height: 4px;
+      background: var(--surface3);
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+      transition: 0.2s;
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      color: white;
+      background: var(--surface3);
+    }
+
+    /* ═══ BIKE DETAIL MODAL CONTENT ═══ */
+    .detail-hero {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-body {
+      padding: 20px;
+    }
+
+    .detail-tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .detail-tag {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 92, 26, 0.12);
+      color: var(--accent2);
+    }
+
+    .detail-title {
+      font-family: var(--ff-head);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .detail-loc {
+      font-size: 14px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .detail-stars {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .detail-stars .stars {
+      font-size: 15px;
+    }
+
+    .detail-stars .rating-val {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .detail-stars .rating-count {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .detail-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* SPECS GRID */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .spec-item {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .spec-icon {
+      font-size: 18px;
+      width: 32px;
+      text-align: center;
+    }
+
+    .spec-info label {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .spec-info span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* AVAILABILITY */
+    .avail-title {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+    }
+
+    .avail-grid {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .avail-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .avail-badge.green {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: var(--green);
+    }
+
+    .avail-badge.red {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--red);
+    }
+
+    .avail-badge i {
+      font-size: 12px;
+    }
+
+    /* DURATION */
+    .duration-title {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+    }
+
+    .duration-grid {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .dur-btn {
+      padding: 9px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: 0.2s;
+      font-family: var(--ff-body);
+    }
+
+    .dur-btn:hover {
+      border-color: rgba(255, 92, 26, 0.4);
+    }
+
+    .dur-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 4px 14px rgba(255, 92, 26, 0.3);
+    }
+
+    .price-calc {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-calc .label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .price-calc .total {
+      font-family: var(--ff-head);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .price-calc .breakdown {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* BOOKING FORM */
+    .section-label {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .form-group input {
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: var(--ff-body);
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: rgba(255, 92, 26, 0.5);
+      box-shadow: 0 0 0 3px rgba(255, 92, 26, 0.08);
+    }
+
+    .form-group input.error {
+      border-color: var(--red);
+    }
+
+    .err-msg {
+      font-size: 11px;
+      color: var(--red);
+      margin-top: 4px;
+    }
+
+    /* PAYMENT */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pay-option {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .pay-option:hover {
+      border-color: rgba(255, 92, 26, 0.3);
+    }
+
+    .pay-option.selected {
+      border-color: var(--accent);
+      background: rgba(255, 92, 26, 0.08);
+    }
+
+    .pay-option .pay-icon {
+      font-size: 22px;
+      width: 32px;
+      text-align: center;
+    }
+
+    .pay-option .pay-info label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .pay-option .pay-info span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pay-option input[type=radio] {
+      display: none;
+    }
+
+    /* BOOKING SUMMARY */
+    .summary-card {
+      background: var(--surface2);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .summary-header {
+      padding: 14px 16px;
+      background: rgba(255, 92, 26, 0.1);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--ff-head);
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-row .s-label {
+      color: var(--muted);
+    }
+
+    .summary-row .s-value {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .summary-total {
+      font-family: var(--ff-head);
+      font-size: 18px;
+      color: var(--accent) !important;
+    }
+
+    /* STEP INDICATOR */
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 16px 20px;
+      margin-bottom: 4px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .step.active {
+      color: var(--accent);
+    }
+
+    .step.done {
+      color: var(--green);
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 2px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .step.active .step-dot {
+      border-color: var(--accent);
+      background: rgba(255, 92, 26, 0.15);
+      color: var(--accent);
+    }
+
+    .step.done .step-dot {
+      border-color: var(--green);
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--green);
+    }
+
+    .step-line {
+      width: 30px;
+      height: 2px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    .step-line.done {
+      background: var(--green);
+    }
+
+    /* SUCCESS ANIMATION */
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .success-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .success-card {
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      max-width: 440px;
+      width: 90%;
+      border: 1px solid var(--border);
+      transform: scale(0.8);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .success-modal.open .success-card {
+      transform: scale(1);
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(34, 197, 94, 0.15);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      animation: popIn 0.5s 0.2s both;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+        opacity: 0
+      }
+
+      70% {
+        transform: scale(1.15)
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .success-title {
+      font-family: var(--ff-head);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .success-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .booking-id {
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border: 1px dashed rgba(34, 197, 94, 0.3);
+    }
+
+    .booking-id .bid-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .booking-id .bid-val {
+      font-family: var(--ff-head);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: 1px;
+    }
+
+    .success-rows {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .success-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .success-row:last-child {
+      border-bottom: none;
+    }
+
+    .success-row .sl {
+      color: var(--muted);
+    }
+
+    .success-row .sv {
+      font-weight: 600;
+    }
+
+    .success-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .success-btns button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--ff-body);
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn-download {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border) !important;
+    }
+
+    .btn-download:hover {
+      background: var(--surface3);
+    }
+
+    .btn-home {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-home:hover {
+      background: var(--accent2);
+    }
+
+    /* CONFETTI */
+    .confetti-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4000;
+      overflow: hidden;
+    }
+
+    .confetto {
+      position: absolute;
+      top: -10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      animation: fall linear both;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0
+      }
+    }
+
+    /* CTA ROW */
+    .modal-cta {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--surface);
+      position: sticky;
+      bottom: 0;
+    }
+
+    .modal-cta .cta-price {
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .modal-cta .cta-hr {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* HIDDEN / VISIBLE */
+    .hidden {
+      display: none !important;
+    }
+
+    /* ═══ BOOKING SCHEDULER ═══ */
+    .scheduler-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* quick-date chips */
+    .quick-dates {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+
+    .qd-chip {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: var(--ff-body);
+    }
+
+    .qd-chip:hover {
+      border-color: rgba(255, 92, 26, 0.4);
+      color: var(--text);
+    }
+
+    .qd-chip.active {
+      background: rgba(255, 92, 26, 0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* mini calendar */
+    .cal-block {
+      background: var(--surface2);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cal-header .cal-title {
+      font-family: var(--ff-head);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .cal-nav {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .cal-nav:hover {
+      background: rgba(255, 92, 26, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .cal-grid {
+      padding: 10px 12px 14px;
+    }
+
+    .cal-dow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+
+    .cal-dow span {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      padding: 4px 0;
+    }
+
+    .cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+      color: var(--text);
+    }
+
+    .cal-day:hover:not(.cal-day-disabled):not(.cal-day-selected) {
+      background: rgba(255, 92, 26, 0.1);
+      color: var(--accent);
+    }
+
+    .cal-day-disabled {
+      color: var(--muted);
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .cal-day-today {
+      font-weight: 800;
+    }
+
+    .cal-day-today::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .cal-day-selected {
+      background: var(--accent) !important;
+      color: white !important;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.35);
+    }
+
+    .cal-day-in-range {
+      background: rgba(255, 92, 26, 0.1);
+      border-radius: 0;
+    }
+
+    .cal-day-range-start {
+      border-radius: 8px 0 0 8px;
+      background: rgba(255, 92, 26, 0.12);
+    }
+
+    .cal-day-range-end {
+      border-radius: 0 8px 8px 0;
+      background: rgba(255, 92, 26, 0.12);
+    }
+
+    .cal-day-empty {
+      cursor: default;
+    }
+
+    /* dual calendar wrapper */
+    .dual-cal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media(max-width:540px) {
+      .dual-cal {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* date display bar */
+    .date-display-bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      background: var(--surface2);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .ddb-cell {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .ddb-cell:hover {
+      background: rgba(255, 92, 26, 0.06);
+    }
+
+    .ddb-cell.active {
+      background: rgba(255, 92, 26, 0.1);
+    }
+
+    .ddb-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .ddb-val {
+      font-family: var(--ff-head);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .ddb-val.placeholder {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 400;
+      font-family: var(--ff-body);
+    }
+
+    .ddb-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 18px;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    /* time slot picker */
+    .time-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .time-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .time-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .time-slot {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: var(--ff-body);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .time-slot:hover:not(.time-slot-disabled) {
+      border-color: rgba(255, 92, 26, 0.4);
+      color: var(--accent);
+    }
+
+    .time-slot.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.3);
+    }
+
+    .time-slot-disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+      text-decoration: line-through;
+    }
+
+    .time-slot .slot-period {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    /* pickup location */
+    .pickup-locations {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .pickup-loc {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .pickup-loc:hover {
+      border-color: rgba(255, 92, 26, 0.3);
+    }
+
+    .pickup-loc.selected {
+      border-color: var(--accent);
+      background: rgba(255, 92, 26, 0.08);
+    }
+
+    .pickup-loc .pl-icon {
+      font-size: 20px;
+      margin-top: 1px;
+    }
+
+    .pickup-loc .pl-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .pickup-loc .pl-addr {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* booking live preview pill */
+    .booking-preview {
+      background: linear-gradient(135deg, rgba(255, 92, 26, 0.12), rgba(255, 140, 66, 0.08));
+      border: 1px solid rgba(255, 92, 26, 0.25);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .bp-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .bp-item .bp-icon {
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .bp-item .bp-val {
+      font-weight: 600;
+    }
+
+    .bp-item .bp-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .bp-total {
+      margin-left: auto;
+      font-family: var(--ff-head);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    /* mini section card */
+    .sched-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .sched-card-hd {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .sched-card-hd i {
+      color: var(--accent);
+    }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media(max-width:600px) {
+      :root {
+        --header-h: 136px;
+      }
+
+      .search-bar {
+        flex-wrap: wrap;
+      }
+
+      .search-bar input {
+        max-width: none;
+        width: 100%;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .specs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #vehicle-list {
+        padding: 12px;
+        gap: 14px;
+      }
+
+      .toolbar {
+        padding: 16px 12px 0;
+      }
+
+      .vehicle-count {
+        padding: 10px 12px 0;
+      }
+
+      .offers-section {
+        padding: 24px 12px 16px;
+      }
+
+      .detail-body {
+        padding: 14px;
+      }
+
+      .modal-cta {
+        padding: 12px 14px;
+      }
+
+      .success-btns {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-bar">
+      <div class="logo-icon"><i class="fa-solid fa-bicycle"></i></div>
+      <div class="logo-text">
+        <h1>GoBike</h1>
+        <span>Ride Your Way</span>
+      </div>
+    </div>
+    <div class="search-bar">
+      <button class="btn btn-ghost" onclick="resetPage()">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </button>
+      <input type="text" id="locationInput" placeholder="Search area in Hyderabad…">
+      <button class="btn btn-primary" onclick="findNearbyVehicles()">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+      <button class="btn-icon" onclick="getLiveLocation()" title="Use my location">
+        <i class="fa-solid fa-location-crosshairs"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <button class="filter-btn active" onclick="setFilter('all',this)">
+        <i class="fa-solid fa-border-all"></i> All
+      </button>
+      <button class="filter-btn" onclick="setFilter('bike',this)">
+        <i class="fa-solid fa-motorcycle"></i> Bikes
+      </button>
+      <button class="filter-btn" onclick="setFilter('scooter',this)">
+        <i class="fa-solid fa-bicycle"></i> Scooters
+      </button>
+      <button class="filter-btn" onclick="setFilter('premium',this)">
+        <i class="fa-solid fa-star"></i> Premium
+      </button>
+      <select class="sort-select" id="sortSelect" onchange="applySortFilter()">
+        <option value="default">Sort By</option>
+        <option value="nearest">Nearest First</option>
+        <option value="price-low">Price: Low → High</option>
+        <option value="price-high">Price: High → Low</option>
+      </select>
+    </div>
+
+    <div class="vehicle-count" id="vehicleCount"></div>
+
+    <!-- VEHICLE LIST -->
+    <div id="vehicle-list"></div>
+
+    <!-- OFFERS SECTION -->
+    <div class="offers-section">
+      <div class="section-header">
+        <h2>🎁 Exclusive Offers</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="offers-scroll">
+        <div class="offer-banner">
+          <img class="offer-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70" alt="offer">
+          <div class="offer-overlay"></div>
+          <div class="offer-discount">20% OFF</div>
+          <div class="offer-content">
+            <h3>First Ride Discount</h3>
+            <p>New user? Get 20% off your very first booking. No code needed!</p>
+            <button class="claim-btn"><i class="fa-solid fa-tag"></i> Claim Offer</button>
+          </div>
+        </div>
+        <div class="offer-banner">
+          <img class="offer-img" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=70"
+            alt="offer">
+          <div class="offer-overlay"></div>
+          <div class="offer-discount">FREE</div>
+          <div class="offer-content">
+            <h3>Free Helmet Rental</h3>
+            <p>Ride safe! Get a complimentary helmet with every booking above 3 hours.</p>
+            <button class="claim-btn"><i class="fa-solid fa-shield-halved"></i> Claim Offer</button>
+          </div>
+        </div>
+        <div class="offer-banner">
+          <img class="offer-img" src="https://images.unsplash.com/photo-1609445947446-8c63c9d3f7e1?w=600&q=70"
+            alt="offer">
+          <div class="offer-overlay"></div>
+          <div class="offer-discount">3+1 FREE</div>
+          <div class="offer-content">
+            <h3>Weekend Special</h3>
+            <p>Rent for 4 hours, pay only for 3. Valid on Saturdays & Sundays.</p>
+            <button class="claim-btn"><i class="fa-solid fa-calendar-week"></i> Claim Offer</button>
+          </div>
+        </div>
+        <div class="offer-banner">
+          <img class="offer-img" src="https://images.unsplash.com/photo-1604594849809-dfedbc827105?w=600&q=70"
+            alt="offer">
+          <div class="offer-overlay"></div>
+          <div class="offer-discount">₹100</div>
+          <div class="offer-content">
+            <h3>Cashback Bonanza</h3>
+            <p>Pay via UPI and get ₹100 cashback directly in your wallet.</p>
+            <button class="claim-btn"><i class="fa-solid fa-wallet"></i> Claim Offer</button>
+          </div>
+        </div>
+        <div class="offer-banner">
+          <img class="offer-img" src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=600&q=70"
+            alt="offer">
+          <div class="offer-overlay"></div>
+          <div class="offer-discount">15% OFF</div>
+          <div class="offer-content">
+            <h3>Premium Bike Deal</h3>
+            <p>Flat 15% off on all 200cc+ premium bikes. For the thrill-seekers!</p>
+            <button class="claim-btn"><i class="fa-solid fa-fire"></i> Claim Offer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-pad"></div>
+  </main>
+
+  <!-- ═══ DETAIL / BOOKING MODAL ═══ -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModalOutside(event)">
+    <div class="modal" id="modalContent">
+      <div class="modal-drag"></div>
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+
+      <!-- Step indicator -->
+      <div class="steps" id="stepIndicator">
+        <div class="step active" id="s1">
+          <div class="step-dot">1</div><span>Details</span>
+        </div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step" id="s2">
+          <div class="step-dot">2</div><span>Book</span>
+        </div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step" id="s3">
+          <div class="step-dot">3</div><span>Pay</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: BIKE DETAILS -->
+      <div id="step1Content">
+        <img class="detail-hero" id="detailImg" src="" alt="bike">
+        <div class="detail-body">
+          <div class="detail-tag-row">
+            <span class="detail-tag" id="detailTypeTag"></span>
+            <span class="detail-tag" id="detailFuelTag"></span>
+          </div>
+          <div class="detail-title" id="detailName"></div>
+          <div class="detail-loc"><i class="fa-solid fa-location-dot" style="color:var(--accent)"></i><span
+              id="detailLoc"></span></div>
+          <div class="detail-stars">
+            <span class="stars" id="detailStars"></span>
+            <span class="rating-val" id="detailRating"></span>
+            <span class="rating-count" id="detailReviews"></span>
+          </div>
+          <div class="detail-desc" id="detailDesc"></div>
+          <div class="specs-grid" id="specsGrid"></div>
+
+          <div class="avail-title">Availability</div>
+          <div class="avail-grid" id="availGrid"></div>
+
+          <div class="duration-title">Select Rental Duration</div>
+          <div class="duration-grid" id="durationGrid"></div>
+
+          <div class="price-calc" id="priceCalc">
+            <div>
+              <div class="label">Total Amount</div>
+              <div class="breakdown" id="calcBreakdown"></div>
+            </div>
+            <div class="total" id="calcTotal">₹0</div>
+          </div>
+        </div>
+        <div class="modal-cta">
+          <div>
+            <div class="cta-price" id="ctaPrice">₹—</div>
+            <div class="cta-hr">per hour</div>
+          </div>
+          <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="goStep2()">
+            Book Now <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: BOOKING FORM -->
+      <div id="step2Content" class="hidden">
+        <div class="detail-body">
+
+          <!-- Personal details -->
+          <div class="section-label" style="margin-bottom:12px"><i class="fa-solid fa-user"
+              style="color:var(--accent)"></i> Your Details</div>
+          <div class="form-grid" style="margin-bottom:12px">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="f_name" placeholder="Rahul Sharma">
+            </div>
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input type="tel" id="f_mobile" placeholder="9876543210" maxlength="10">
+            </div>
+          </div>
+          <div class="form-grid full" style="margin-bottom:20px">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="f_email" placeholder="rahul@email.com">
+            </div>
+          </div>
+
+          <!-- Pickup Location -->
+          <div class="section-label" style="margin-bottom:12px"><i class="fa-solid fa-location-dot"
+              style="color:var(--accent)"></i> Pickup Location</div>
+          <div class="pickup-locations" id="pickupLocations" style="margin-bottom:20px">
+            <div class="pickup-loc selected" onclick="selectPickup(this,'KPHB Hub','KPHB Colony, Near Metro Station')">
+              <div class="pl-icon">🏢</div>
+              <div>
+                <div class="pl-name">KPHB Hub</div>
+                <div class="pl-addr">KPHB Colony, Near Metro Station</div>
+              </div>
+            </div>
+            <div class="pickup-loc" onclick="selectPickup(this,'Madhapur Centre','Cyber Towers, Madhapur')">
+              <div class="pl-icon">🏙️</div>
+              <div>
+                <div class="pl-name">Madhapur Centre</div>
+                <div class="pl-addr">Cyber Towers, Madhapur</div>
+              </div>
+            </div>
+            <div class="pickup-loc" onclick="selectPickup(this,'Kukatpally Point','KPHB Metro Depot Rd')">
+              <div class="pl-icon">🛵</div>
+              <div>
+                <div class="pl-name">Kukatpally Point</div>
+                <div class="pl-addr">KPHB Metro Depot Road</div>
+              </div>
+            </div>
+            <div class="pickup-loc" onclick="selectPickup(this,'Hitech City Garage','Hitech City, Opp Inorbit')">
+              <div class="pl-icon">⚡</div>
+              <div>
+                <div class="pl-name">Hitech City Garage</div>
+                <div class="pl-addr">Opp Inorbit Mall, Hitec City</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scheduler heading -->
+          <div class="section-label" style="margin-bottom:14px"><i class="fa-regular fa-calendar"
+              style="color:var(--accent)"></i> Ride Schedule</div>
+
+          <!-- Selected date display bar -->
+          <div class="date-display-bar" style="margin-bottom:14px">
+            <div class="ddb-cell" id="ddb_pickup" onclick="sched.focusPickup()">
+              <div class="ddb-label">📍 Pickup</div>
+              <div class="ddb-val placeholder" id="ddb_pickup_val">Select date &amp; time</div>
+            </div>
+            <div class="ddb-divider"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="ddb-cell" id="ddb_return" onclick="sched.focusReturn()">
+              <div class="ddb-label">🏁 Return</div>
+              <div class="ddb-val placeholder" id="ddb_return_val">Select date &amp; time</div>
+            </div>
+          </div>
+
+          <!-- Quick date chips -->
+          <div class="sched-card" style="margin-bottom:12px">
+            <div class="sched-card-hd"><i class="fa-solid fa-bolt"></i> Quick Select</div>
+            <div class="quick-dates" id="quickDates"></div>
+          </div>
+
+          <!-- Calendar -->
+          <div class="sched-card hidden" style="margin-bottom:12px" id="calendarCard">
+            <div class="sched-card-hd" id="calCardLabel"><i class="fa-regular fa-calendar-days"></i> Choose Pickup Date
+            </div>
+            <div class="cal-block" style="background:transparent;border:none;">
+              <div class="cal-header">
+                <button class="cal-nav" onclick="sched.prevMonth()"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="cal-title" id="calMonthLabel"></div>
+                <button class="cal-nav" onclick="sched.nextMonth()"><i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+              <div class="cal-grid">
+                <div class="cal-dow">
+                  <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+                  <span>Th</span><span>Fr</span><span>Sa</span>
+                </div>
+                <div class="cal-days" id="calDays"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time slot picker -->
+          <div class="sched-card hidden" style="margin-bottom:12px" id="timeCard">
+            <div class="sched-card-hd"><i class="fa-regular fa-clock"></i> <span id="timeCardLabel">Pickup Time</span>
+            </div>
+            <div id="timePickerWrap"></div>
+          </div>
+
+          <!-- Live booking preview -->
+          <div class="booking-preview" id="bookingPreview" style="margin-bottom:4px">
+            <div class="bp-item">
+              <span class="bp-icon"><i class="fa-solid fa-route"></i></span>
+              <div>
+                <div class="bp-label">Duration</div>
+                <div class="bp-val" id="bp_dur">—</div>
+              </div>
+            </div>
+            <div class="bp-item">
+              <span class="bp-icon"><i class="fa-solid fa-calendar-check"></i></span>
+              <div>
+                <div class="bp-label">Pickup</div>
+                <div class="bp-val" id="bp_pickup">—</div>
+              </div>
+            </div>
+            <div class="bp-item">
+              <span class="bp-icon"><i class="fa-solid fa-flag-checkered"></i></span>
+              <div>
+                <div class="bp-label">Return</div>
+                <div class="bp-val" id="bp_return">—</div>
+              </div>
+            </div>
+            <div class="bp-total" id="bp_total">₹—</div>
+          </div>
+
+          <div class="err-msg hidden" id="formErr" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="modal-cta">
+          <button class="btn btn-ghost" onclick="goStep1()"><i class="fa-solid fa-arrow-left"></i></button>
+          <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="goStep3()">
+            Proceed to Payment <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PAYMENT -->
+      <div id="step3Content" class="hidden">
+        <div class="detail-body">
+          <div class="section-label" style="margin-bottom:16px"><i class="fa-solid fa-file-invoice"
+              style="color:var(--accent)"></i> Booking Summary</div>
+          <div class="summary-card">
+            <div class="summary-header"><i class="fa-solid fa-receipt"></i> Summary</div>
+            <div class="summary-row"><span class="s-label">Bike</span><span class="s-value" id="sum_bike"></span></div>
+            <div class="summary-row"><span class="s-label">Location</span><span class="s-value" id="sum_loc"></span>
+            </div>
+            <div class="summary-row"><span class="s-label">Duration</span><span class="s-value" id="sum_dur"></span>
+            </div>
+            <div class="summary-row"><span class="s-label">Pickup</span><span class="s-value" id="sum_pickup"></span>
+            </div>
+            <div class="summary-row" style="border-bottom:none;"><span class="s-label">Return</span><span class="s-value" id="sum_return"></span>
+            </div>
+            <div class="summary-row" style="background:rgba(255,255,255,0.02); border-top:1px dashed var(--border);"><span class="s-label">Subtotal</span><span class="s-value" id="sum_subtotal"></span></div>
+            <div class="summary-row hidden" id="sum_discount_row" style="background:rgba(34,197,94,0.05); border-bottom:1px dashed var(--border);"><span class="s-label" style="color:var(--green)">Discount (<span id="sum_discount_pct"></span>)</span><span class="s-value" style="color:var(--green)" id="sum_discount_amt"></span></div>
+            <div class="summary-row">
+              <span class="s-label">Total Amount</span>
+              <span class="s-value summary-total" id="sum_total"></span>
+            </div>
+          </div>
+          
+          <div class="section-label" style="margin-top:20px; margin-bottom:12px"><i class="fa-solid fa-tag" style="color:var(--accent)"></i> Offers Applied</div>
+          <div class="summary-card" style="padding:14px 16px; margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:600; font-size:14px; color:var(--accent);" id="offer_name">No Offer</div>
+                <div style="font-size:12px; color:var(--muted);" id="offer_desc">Complete more rides to unlock offers!</div>
+              </div>
+              <div style="font-family:var(--ff-head); font-weight:800; font-size:16px; color:var(--green);" id="offer_amt">-₹0</div>
+            </div>
+          </div>
+
+          <div class="section-label" style="margin-bottom:12px"><i class="fa-solid fa-credit-card"
+              style="color:var(--accent)"></i> Payment Method</div>
+          <div class="payment-grid" id="payGrid">
+            <label class="pay-option" id="pay_gpay">
+              <input type="radio" name="pay" value="gpay">
+              <div class="pay-icon" style="color:#34a853"><i class="fa-brands fa-google-pay"></i></div>
+              <div class="pay-info"><label>Google Pay</label><span>UPI · Instant</span></div>
+            </label>
+            <label class="pay-option" id="pay_phonepe">
+              <input type="radio" name="pay" value="phonepe">
+              <div class="pay-icon" style="color:#5f259f"><i class="fa-solid fa-mobile-screen-button"></i></div>
+              <div class="pay-info"><label>PhonePe</label><span>UPI · Instant</span></div>
+            </label>
+            <label class="pay-option" id="pay_paytm">
+              <input type="radio" name="pay" value="paytm">
+              <div class="pay-icon" style="color:#00b9f1"><i class="fa-solid fa-p"></i></div>
+              <div class="pay-info"><label>Paytm</label><span>UPI · Wallet</span></div>
+            </label>
+            <label class="pay-option" id="pay_credit">
+              <input type="radio" name="pay" value="credit">
+              <div class="pay-icon" style="color:var(--amber)"><i class="fa-solid fa-credit-card"></i></div>
+              <div class="pay-info"><label>Credit Card</label><span>Visa / Mastercard</span></div>
+            </label>
+            <label class="pay-option" id="pay_debit">
+              <input type="radio" name="pay" value="debit">
+              <div class="pay-icon" style="color:#60a5fa"><i class="fa-solid fa-credit-card"></i></div>
+              <div class="pay-info"><label>Debit Card</label><span>All banks accepted</span></div>
+            </label>
+            <label class="pay-option" id="pay_netbank">
+              <input type="radio" name="pay" value="netbank">
+              <div class="pay-icon" style="color:var(--green)"><i class="fa-solid fa-building-columns"></i></div>
+              <div class="pay-info"><label>Net Banking</label><span>All major banks</span></div>
+            </label>
+            <label class="pay-option" id="pay_cash">
+              <input type="radio" name="pay" value="cash">
+              <div class="pay-icon" style="color:var(--accent2)"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+              <div class="pay-info"><label>Cash at Pickup</label><span>Pay when you collect</span></div>
+            </label>
+          </div>
+          <div class="err-msg hidden" id="payErr"></div>
+        </div>
+        <div class="modal-cta">
+          <button class="btn btn-ghost" onclick="goStep2()"><i class="fa-solid fa-arrow-left"></i></button>
+          <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="confirmBooking()">
+            <i class="fa-solid fa-lock"></i> Confirm &amp; Pay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="success-modal" id="successModal">
+    <div class="success-card">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Booking Confirmed!</div>
+      <div class="success-sub">Your ride is all set. Have a safe journey!</div>
+      <div class="booking-id">
+        <div class="bid-label">BOOKING ID</div>
+        <div class="bid-val" id="suc_id"></div>
+      </div>
+      <div class="success-rows">
+        <div class="success-row"><span class="sl">Bike</span><span class="sv" id="suc_bike"></span></div>
+        <div class="success-row"><span class="sl">Duration</span><span class="sv" id="suc_dur"></span></div>
+        <div class="success-row"><span class="sl">Payment</span><span class="sv" id="suc_pay"></span></div>
+        <div class="success-row"><span class="sl">Amount Paid</span><span class="sv" style="color:var(--green)"
+            id="suc_amt"></span></div>
+      </div>
+      <div class="success-btns">
+        <button class="btn-download" onclick="downloadReceipt()"><i class="fa-solid fa-download"></i> Receipt</button>
+        <button class="btn-home" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFETTI -->
+  <div class="confetti-wrap" id="confettiWrap"></div>
+
+  <!-- ═══════════════════ SCRIPT ═══════════════════ -->
+  <script>
+    /* ─── DATA ─── */
+    const vehicles = [
+      { name: "Royal Enfield Classic 350", city: "Hyderabad", area: "KPHB", lat: 17.4947, lon: 78.3923, priceNum: 129, price: "₹129/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "35 kmpl", cc: "349 cc", image: "https://images.unsplash.com/photo-1611429532458-f8bf8f6121fe?fm=jpg&q=60&w=3000&auto=format&fit=crop", rating: 4.7, reviews: 328, desc: "The iconic Classic 350 blends heritage styling with modern reliability. Perfect for long city rides and weekend adventures." },
+      { name: "Yamaha MT15", city: "Hyderabad", area: "KPHB", lat: 17.4950, lon: 78.3910, priceNum: 149, price: "₹149/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "45 kmpl", cc: "155 cc", image: "https://imgd.aeplcdn.com/1280x720/n/cw/ec/115871/mt-15-v2-right-side-view.jpeg?isig=0&q=100", rating: 4.8, reviews: 215, desc: "A naked streetfighter with aggressive ergonomics and responsive throttle. Best for the urban jungle warrior in you." },
+      { name: "Yamaha R15 V4", city: "Hyderabad", area: "KPHB", lat: 17.4930, lon: 78.3940, priceNum: 139, price: "₹139/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "40 kmpl", cc: "155 cc", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdyCfA6czXMc8FOeu6gGbNFEjIBLGP01pufQ&s", rating: 4.9, reviews: 512, desc: "The R15 V4 brings MotoGP aerodynamics to the streets with its winglets and race-tuned chassis." },
+      { name: "KTM Duke 200", city: "Hyderabad", area: "Madhapur", lat: 17.4483, lon: 78.3915, priceNum: 159, price: "₹159/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "35 kmpl", cc: "199 cc", image: "https://imgd.aeplcdn.com/1280x720/n/cw/ec/120761/ktm-duke-200-right-side-view2.jpeg?isig=0", rating: 4.6, reviews: 194, desc: "Ready to Race. The Duke 200 is built for those who crave adrenaline. Lightweight trellis frame, punchy single-cylinder engine." },
+      { name: "KTM RC 200", city: "Hyderabad", area: "Madhapur", lat: 17.4470, lon: 78.3900, priceNum: 169, price: "₹169/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "32 kmpl", cc: "199 cc", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnBemHWiQQ3QLDCRH5k045YADU22l8_gBoAQ&s", rating: 4.8, reviews: 143, desc: "The RC 200 is a full-faired supersport for those who love track-inspired riding on city roads." },
+      { name: "TVS Apache RTR 160", city: "Hyderabad", area: "Madhapur", lat: 17.4490, lon: 78.3920, priceNum: 119, price: "₹119/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "45 kmpl", cc: "159 cc", image: "https://cdn.bikedekho.com/upload/userreviewimages/698229de1f306.png", rating: 4.3, reviews: 287, desc: "The Apache RTR 160 is a sporty commuter with race DNA. Great balance of performance and fuel efficiency." },
+      { name: "TVS Raider 125", city: "Hyderabad", area: "KPHB", lat: 17.4925, lon: 78.3930, priceNum: 99, price: "₹99/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "55 kmpl", cc: "124 cc", image: "https://cdn-s3.autocarindia.com/TVS/Raider-125/_HSS1778.JPG?w=384&q=75", rating: 4.2, reviews: 176, desc: "Modern, stylish, and economical. The Raider 125 is perfect for daily city commutes with a touch of sportiness." },
+      { name: "Honda Shine 125", city: "Hyderabad", area: "KPHB", lat: 17.4910, lon: 78.3950, priceNum: 89, price: "₹89/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "60 kmpl", cc: "124 cc", image: "https://cdn-s3.autocarindia.com/honda-bike/SP%20125/_DSC8990.JPG?w=640", rating: 4.1, reviews: 423, desc: "The go-to everyday commuter. Reliable, comfortable, and easy to ride — perfect for first-timers and daily riders alike." },
+      { name: "Honda Unicorn", city: "Hyderabad", area: "Kukatpally", lat: 17.4840, lon: 78.4130, priceNum: 99, price: "₹99/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "50 kmpl", cc: "162 cc", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPpWQED-G-T2K7J7VNWPqC7zx2GZDPCQd7Vw&s", rating: 4.4, reviews: 334, desc: "A timeless classic. The Unicorn offers buttery smooth riding with refined power delivery — true to its legendary status." },
+      { name: "Bajaj Pulsar 150", city: "Hyderabad", area: "Kukatpally", lat: 17.4850, lon: 78.4120, priceNum: 109, price: "₹109/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "50 kmpl", cc: "149 cc", image: "https://cdn-s3.autocarindia.com/Bajaj/Pulsar-150/DSC_0845.JPG?w=640&q=75", rating: 4.2, reviews: 267, desc: "India's favourite sporty commuter. The Pulsar 150 is a bold, powerful, and affordable ride for all." },
+      { name: "Bajaj Pulsar NS160", city: "Hyderabad", area: "Kukatpally", lat: 17.4860, lon: 78.4140, priceNum: 119, price: "₹119/Hour", type: "bike", category: "bike", fuel: "Petrol", mileage: "42 kmpl", cc: "160 cc", image: "https://imgd.aeplcdn.com/664x374/n/cw/ec/148807/pulsar-ns-160-right-front-three-quarter.jpeg?isig=0&q=80", rating: 4.5, reviews: 198, desc: "The NS160 brings liquid-cooled performance with a perimeter frame. A sporty naked that means business." },
+      { name: "Bajaj Pulsar NS200", city: "Hyderabad", area: "Kukatpally", lat: 17.4870, lon: 78.4150, priceNum: 129, price: "₹129/Hour", type: "bike", category: "premium", fuel: "Petrol", mileage: "38 kmpl", cc: "199 cc", image: "https://imgd.aeplcdn.com/664x374/n/cw/ec/58025/right-front-three-quarter.jpeg?q=80", rating: 4.6, reviews: 311, desc: "Liquid-cooled performance in an aggressive naked package. The NS200 is a serious machine for serious riders." },
+      { name: "Honda Activa 6G", city: "Hyderabad", area: "Kukatpally", lat: 17.4880, lon: 78.4160, priceNum: 79, price: "₹79/Hour", type: "scooter", category: "scooter", fuel: "Petrol", mileage: "60 kmpl", cc: "109 cc", image: "https://cdn-s3.autocarindia.com/honda-bike/Activa%206G/_DSC8819.JPG?w=640&q=75", rating: 4.3, reviews: 689, desc: "India's most loved scooter. Effortless, practical, and comfortable for daily city scooting with best-in-class refinement." },
+      { name: "TVS Jupiter", city: "Hyderabad", area: "Madhapur", lat: 17.4460, lon: 78.3890, priceNum: 79, price: "₹79/Hour", type: "scooter", category: "scooter", fuel: "Petrol", mileage: "62 kmpl", cc: "109 cc", image: "https://tiimg.tistatic.com/fp/1/007/641/tvs-purple-jupiter-125-scotty-with-125-cc-and-6500-rpm-with-easy-to-handeling-700.jpg", rating: 4.2, reviews: 445, desc: "The king of scooters. Jupiter offers a plush ride with wide seats, telescopic suspension, and outstanding mileage." },
+      { name: "Suzuki Access 125", city: "Hyderabad", area: "Madhapur", lat: 17.4450, lon: 78.3880, priceNum: 89, price: "₹89/Hour", type: "scooter", category: "scooter", fuel: "Petrol", mileage: "55 kmpl", cc: "124 cc", image: "https://www.carandbike.com/_next/image?url=https%3A%2F%2Fimages.carandbike.com%2Fbike-images%2Fbig%2Fhero%2Fdestini-110%2Fhero-destini-110.jpg%3Fv%3D9&w=1920&q=75", rating: 4.1, reviews: 213, desc: "A premium scooter with Bluetooth connectivity and a powerful 125cc engine. Smooth, stylish, and sophisticated." }
+    ];
+
+    let currentFilter = 'all';
+    let currentSort = 'default';
+    let baseVehicles = vehicles;
+    let selectedVehicle = null;
+    let selectedDuration = null;
+    let favorites = new Set();
+    let userRentalsCount = 0;
+
+    const availMap = [true, false, true]; // today, tomorrow, weekend
+    const durOptions = [
+      { label: "1 Hour", hours: 1 },
+      { label: "3 Hours", hours: 3 },
+      { label: "6 Hours", hours: 6 },
+      { label: "12 Hours", hours: 12 },
+      { label: "1 Day", hours: 24 },
+      { label: "1 Week", hours: 24 * 7 },
+      { label: "2 Weeks", hours: 24 * 14 },
+      { label: "3 Weeks", hours: 24 * 21 },
+      { label: "1 Month", hours: 24 * 30 }
+    ];
+
+    /* ─── RATING STARS ─── */
+    function starHtml(rating) {
+      const full = Math.floor(rating);
+      const half = rating - full >= 0.5;
+      let h = '';
+      for (let i = 0; i < full; i++) h += '<i class="fa-solid fa-star"></i>';
+      if (half) h += '<i class="fa-solid fa-star-half-stroke"></i>';
+      for (let i = full + (half ? 1 : 0); i < 5; i++) h += '<i class="fa-regular fa-star"></i>';
+      return h;
+    }
+
+    /* ─── RENDER CARDS ─── */
+    function buildCard(v) {
+      const isAvail = Math.random() > 0.25;
+      const favActive = favorites.has(v.name);
+      const distHtml = v.distance ? `<div class="card-dist-tag"><i class="fa-solid fa-route"></i>${v.distance}</div>` : '';
+      const typeLabel = v.type === 'scooter' ? '🛵 Scooter' : v.category === 'premium' ? '⚡ Premium Bike' : '🏍️ Bike';
+      return `
+  <div class="vehicle-card" onclick="openDetail('${v.name}')">
+    <div class="card-img-wrap">
+      <img src="${v.image}" alt="${v.name}" loading="lazy">
+      <div class="card-badge ${isAvail ? 'badge-avail' : 'badge-busy'}">${isAvail ? 'Available' : 'Busy'}</div>
+      <div class="fav-btn ${favActive ? 'active' : ''}" onclick="toggleFav(event,'${v.name}')">
+        <i class="${favActive ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+      </div>
+      ${distHtml}
+    </div>
+    <div class="card-body">
+      <div class="card-type-chip">${typeLabel}</div>
+      <h2>${v.name}</h2>
+      <div class="card-loc"><i class="fa-solid fa-location-dot" style="color:var(--accent)"></i>${v.area}, ${v.city}</div>
+      <div class="card-stars">
+        <span class="stars">${starHtml(v.rating)}</span>
+        <span class="rating-val">${v.rating}</span>
+        <span class="rating-count">(${v.reviews} reviews)</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">₹${v.priceNum}<span>/hr</span></div>
+        <button class="book-btn" onclick="event.stopPropagation();openDetail('${v.name}')">Book Now</button>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function showSkeletons() {
+      const grid = document.getElementById('vehicle-list');
+      grid.innerHTML = Array.from({ length: 6 }, () => `
+    <div class="skel-card">
+      <div class="skel-img skeleton"></div>
+      <div class="skel-body">
+        <div class="skel-line-l skeleton"></div>
+        <div class="skel-line-m skeleton"></div>
+        <div class="skel-line-s skeleton"></div>
+      </div>
+    </div>`).join('');
+      document.getElementById('vehicleCount').textContent = '';
+    }
+
+    function displayVehicles(list) {
+      const grid = document.getElementById('vehicle-list');
+      if (!list.length) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏍️</div><h3>No Bikes Found</h3><p>Try a different area or use live location.</p></div>`;
+        document.getElementById('vehicleCount').textContent = '';
+        return;
+      }
+      grid.innerHTML = list.map(buildCard).join('');
+      document.getElementById('vehicleCount').innerHTML = `Showing <strong>${list.length}</strong> vehicle${list.length !== 1 ? 's' : ''} available`;
+    }
+
+    /* ─── FILTER / SORT ─── */
+    function setFilter(f, el) {
+      currentFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      applySortFilter();
+    }
+
+    function applySortFilter() {
+      const sortVal = document.getElementById('sortSelect').value;
+      currentSort = sortVal;
+
+      let filtered = baseVehicles.filter(v => {
+        if (currentFilter === 'all') return true;
+        if (currentFilter === 'bike') return v.type === 'bike';
+        if (currentFilter === 'scooter') return v.type === 'scooter';
+        if (currentFilter === 'premium') return v.category === 'premium';
+        return true;
+      });
+
+      if (sortVal === 'price-low') filtered.sort((a, b) => a.priceNum - b.priceNum);
+      else if (sortVal === 'price-high') filtered.sort((a, b) => b.priceNum - a.priceNum);
+      else if (sortVal === 'nearest' && filtered[0]?.distance) {
+        filtered.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+      }
+      displayVehicles(filtered);
+    }
+
+    /* ─── TOGGLE FAV ─── */
+    function toggleFav(e, name) {
+      e.stopPropagation();
+      if (favorites.has(name)) favorites.delete(name);
+      else favorites.add(name);
+      applySortFilter();
+    }
+
+    /* ─── SEARCH ─── */
+    function findNearbyVehicles() {
+      const q = document.getElementById('locationInput').value.toLowerCase().trim();
+      showSkeletons();
+      setTimeout(() => {
+        baseVehicles = vehicles.filter(v => v.city.toLowerCase().includes('hyderabad') && v.area.toLowerCase().includes(q));
+        applySortFilter();
+      }, 600);
+    }
+
+    function resetPage() {
+      document.getElementById('locationInput').value = '';
+      document.getElementById('sortSelect').value = 'default';
+      currentSort = 'default'; currentFilter = 'all';
+      document.querySelectorAll('.filter-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      baseVehicles = vehicles;
+      applySortFilter();
+    }
+
+    /* ─── LIVE LOCATION ─── */
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+      return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
+    }
+
+    function getLiveLocation() {
+      if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+      showSkeletons();
+      navigator.geolocation.getCurrentPosition(pos => {
+        const { latitude: uLat, longitude: uLon } = pos.coords;
+        baseVehicles = vehicles.map(v => ({ ...v, distance: calculateDistance(uLat, uLon, v.lat, v.lon) + ' KM Away' }));
+        applySortFilter();
+      }, () => { alert('Location access denied'); applySortFilter(); });
+    }
+
+    /* ─── DETAIL MODAL ─── */
+    function openDetail(name) {
+      const v = vehicles.find(x => x.name === name);
+      if (!v) return;
+      selectedVehicle = v;
+      selectedDuration = null;
+      sched.pickupDate = null; sched.pickupTime = null;
+      sched.returnDate = null; sched.returnTime = null;
+      sched.mode = 'pickup';
+
+      document.getElementById('detailImg').src = v.image;
+      document.getElementById('detailName').textContent = v.name;
+      document.getElementById('detailLoc').textContent = `${v.area}, ${v.city}`;
+      document.getElementById('detailTypeTag').textContent = v.type === 'scooter' ? 'Scooter' : v.category === 'premium' ? 'Premium Bike' : 'Bike';
+      document.getElementById('detailFuelTag').textContent = v.fuel;
+      document.getElementById('detailStars').innerHTML = starHtml(v.rating);
+      document.getElementById('detailRating').textContent = v.rating;
+      document.getElementById('detailReviews').textContent = `(${v.reviews} reviews)`;
+      document.getElementById('detailDesc').textContent = v.desc;
+      document.getElementById('ctaPrice').textContent = `₹${v.priceNum}`;
+
+      document.getElementById('specsGrid').innerHTML = `
+    <div class="spec-item"><div class="spec-icon">⛽</div><div class="spec-info"><label>Fuel Type</label><span>${v.fuel}</span></div></div>
+    <div class="spec-item"><div class="spec-icon">🛣️</div><div class="spec-info"><label>Mileage</label><span>${v.mileage}</span></div></div>
+    <div class="spec-item"><div class="spec-icon">🔧</div><div class="spec-info"><label>Engine</label><span>${v.cc}</span></div></div>
+    <div class="spec-item"><div class="spec-icon">⭐</div><div class="spec-info"><label>Rating</label><span>${v.rating}/5</span></div></div>
+  `;
+
+      const slots = ['Today', 'Tomorrow', 'This Weekend'];
+      document.getElementById('availGrid').innerHTML = slots.map((s, i) => `
+    <div class="avail-badge ${availMap[i] ? 'green' : 'red'}">
+      <i class="fa-solid fa-${availMap[i] ? 'circle-check' : 'circle-xmark'}"></i>${s}
+    </div>`).join('');
+
+      document.getElementById('durationGrid').innerHTML = durOptions.map(d => `
+    <button class="dur-btn" onclick="selectDuration(${d.hours},'${d.label}',this)">${d.label}</button>`).join('');
+
+      updatePriceCalc(null);
+      goToStep(1);
+      document.getElementById('detailModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function selectDuration(hours, label, el) {
+      selectedDuration = { hours, label };
+      document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      updatePriceCalc(hours);
+    }
+
+    function calculatePrice(hourlyRate, hours) {
+      const dailyRate = hourlyRate * 7;
+      const weeklyRate = dailyRate * 6;
+      const monthlyRate = weeklyRate * 4;
+
+      const months = Math.floor(hours / 720);
+      const remHoursAfterMonths = hours % 720;
+
+      const weeks = Math.floor(remHoursAfterMonths / 168);
+      const remHoursAfterWeeks = remHoursAfterMonths % 168;
+
+      const days = Math.floor(remHoursAfterWeeks / 24);
+      const remHours = remHoursAfterWeeks % 24;
+
+      let total = months * monthlyRate;
+      total += weeks * weeklyRate;
+      total += days * dailyRate;
+      total += Math.min(remHours * hourlyRate, dailyRate);
+
+      return total;
+    }
+
+    function updatePriceCalc(hours) {
+      if (!selectedVehicle || !hours) {
+        document.getElementById('calcTotal').textContent = '₹0';
+        document.getElementById('calcBreakdown').textContent = 'Select duration above';
+        return;
+      }
+      const total = Math.round(calculatePrice(selectedVehicle.priceNum, hours));
+      document.getElementById('calcTotal').textContent = `₹${total}`;
+      document.getElementById('calcBreakdown').textContent = `₹${selectedVehicle.priceNum}/hr • Discounted for longer durations`;
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('detailModal')) closeModal();
+    }
+
+    /* ─── STEP NAVIGATION ─── */
+    function goToStep(n) {
+      document.getElementById('step1Content').classList.toggle('hidden', n !== 1);
+      document.getElementById('step2Content').classList.toggle('hidden', n !== 2);
+      document.getElementById('step3Content').classList.toggle('hidden', n !== 3);
+
+      ['s1', 's2', 's3'].forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.classList.toggle('active', i + 1 === n);
+        el.classList.toggle('done', i + 1 < n);
+      });
+      ['sl1', 'sl2'].forEach((id, i) => {
+        document.getElementById(id).classList.toggle('done', i + 1 < n);
+      });
+      document.getElementById('modalContent').scrollTop = 0;
+    }
+
+    function goStep1() { goToStep(1); }
+    function goStep2() {
+      if (!selectedDuration) { alert('Please select a rental duration.'); return; }
+      goToStep(2);
+      // init scheduler on first open, or re-render on re-open
+      setTimeout(() => sched.init(), 60);
+    }
+
+    function goStep3() {
+      const name = document.getElementById('f_name').value.trim();
+      const mobile = document.getElementById('f_mobile').value.trim();
+      const email = document.getElementById('f_email').value.trim();
+
+      if (!name || name.length < 2) { showFormErr('Please enter your full name.'); return; }
+      if (!/^[6-9]\d{9}$/.test(mobile)) { showFormErr('Enter a valid 10-digit mobile number.'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormErr('Enter a valid email address.'); return; }
+      if (!sched.pickupDate || !sched.pickupTime) { showFormErr('Please select your pickup date and time.'); return; }
+      if (!sched.returnDate || !sched.returnTime) { showFormErr('Please select your return date and time.'); return; }
+
+      const pickupDT = sched.combineDT(sched.pickupDate, sched.pickupTime);
+      const returnDT = sched.combineDT(sched.returnDate, sched.returnTime);
+      if (returnDT <= pickupDT) { showFormErr('Return time must be after pickup time.'); return; }
+
+      document.getElementById('formErr').classList.add('hidden');
+
+      const diffMs = returnDT - pickupDT;
+      const hrs = Math.round(diffMs / 3600000 * 10) / 10;
+      const subtotal = Math.round(calculatePrice(selectedVehicle.priceNum, hrs));
+      
+      let discountPct = 0;
+      let offerName = '';
+      let offerDesc = '';
+      if (userRentalsCount === 0) { discountPct = 0.70; offerName = "FIRST70"; offerDesc = "70% off on your first rental!"; }
+      else if (userRentalsCount === 1) { discountPct = 0.50; offerName = "SECOND50"; offerDesc = "50% off on your second rental!"; }
+      else if (userRentalsCount === 2) { discountPct = 0.30; offerName = "THIRD30"; offerDesc = "30% off on your third rental!"; }
+      else if (userRentalsCount === 3 || userRentalsCount === 4) { discountPct = 0.10; offerName = "RIDE10"; offerDesc = "10% off for our loyal riders!"; }
+      else { offerName = "No Offer"; offerDesc = "Complete more rides to unlock offers!"; }
+
+      const discountAmt = Math.round(subtotal * discountPct);
+      const total = subtotal - discountAmt;
+      
+      sched.currentTotal = total; // save for confirmation
+
+      let durLabel = hrs >= 24 ? `${+(hrs / 24).toFixed(1)} Days` : `${hrs} Hours`;
+      if (hrs === 24 * 7) durLabel = "1 Week";
+      if (hrs === 24 * 14) durLabel = "2 Weeks";
+      if (hrs === 24 * 21) durLabel = "3 Weeks";
+      if (hrs === 24 * 30) durLabel = "1 Month";
+      selectedDuration = { hours: hrs, label: durLabel };
+
+      document.getElementById('sum_bike').textContent = selectedVehicle.name;
+      document.getElementById('sum_loc').textContent = `${sched.selectedLocation} · ${selectedVehicle.area}`;
+      document.getElementById('sum_dur').textContent = selectedDuration.label;
+      document.getElementById('sum_pickup').textContent = sched.fmtFull(pickupDT);
+      document.getElementById('sum_return').textContent = sched.fmtFull(returnDT);
+      
+      document.getElementById('sum_subtotal').textContent = `₹${subtotal}`;
+      if(discountAmt > 0) {
+        document.getElementById('sum_discount_row').classList.remove('hidden');
+        document.getElementById('sum_discount_pct').textContent = `${Math.round(discountPct*100)}% OFF`;
+        document.getElementById('sum_discount_amt').textContent = `-₹${discountAmt}`;
+      } else {
+        document.getElementById('sum_discount_row').classList.add('hidden');
+      }
+      document.getElementById('sum_total').textContent = `₹${total}`;
+      
+      document.getElementById('offer_name').textContent = offerName;
+      document.getElementById('offer_desc').textContent = offerDesc;
+      document.getElementById('offer_amt').textContent = discountAmt > 0 ? `-₹${discountAmt}` : '';
+
+      goToStep(3);
+    }
+
+    /* ─── PICKUP LOCATION ─── */
+    let selectedPickupLocation = 'KPHB Hub';
+    function selectPickup(el, name, addr) {
+      document.querySelectorAll('.pickup-loc').forEach(l => l.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedPickupLocation = name;
+      sched.selectedLocation = name;
+    }
+
+    /* ─── SCHEDULER ENGINE ─── */
+    const sched = {
+      pickupDate: null, pickupTime: null,
+      returnDate: null, returnTime: null,
+      mode: 'pickup',           // 'pickup' | 'return'
+      viewYear: 0, viewMonth: 0,
+      selectedLocation: 'KPHB Hub',
+
+      MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      DOW: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+
+      TIMES_AM: ['06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'],
+      TIMES_PM: ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30'],
+
+      init() {
+        const now = new Date();
+        this.viewYear = now.getFullYear();
+        this.viewMonth = now.getMonth();
+        this.buildQuickDates();
+        this.renderCalendar();
+        this.renderTimeSlots();
+        this.updateDisplayBar();
+      },
+
+      showCalendar() {
+        document.getElementById('calendarCard').classList.remove('hidden');
+        document.getElementById('timeCard').classList.remove('hidden');
+      },
+
+      focusPickup() { this.mode = 'pickup'; this.showCalendar(); this.renderCalendar(); this.renderTimeSlots(); this.highlightMode(); },
+      focusReturn() { this.mode = 'return'; this.showCalendar(); this.renderCalendar(); this.renderTimeSlots(); this.highlightMode(); },
+
+      highlightMode() {
+        document.getElementById('ddb_pickup').classList.toggle('active', this.mode === 'pickup');
+        document.getElementById('ddb_return').classList.toggle('active', this.mode === 'return');
+        document.getElementById('calCardLabel').innerHTML =
+          `<i class="fa-regular fa-calendar-days" style="color:var(--accent)"></i> Choose ${this.mode === 'pickup' ? 'Pickup' : 'Return'} Date`;
+        document.getElementById('timeCardLabel').textContent = this.mode === 'pickup' ? 'Pickup Time' : 'Return Time';
+      },
+
+      buildQuickDates() {
+        const now = new Date(); const today = this.dateKey(now);
+        const chips = [
+          { label: 'Today', d: new Date() },
+          { label: 'Tomorrow', d: new Date(now.getTime() + 86400000) },
+          { label: 'This Sat', d: this.nextWeekday(now, 6) },
+          { label: 'This Sun', d: this.nextWeekday(now, 0) },
+          { label: `${this.fmtShort(new Date(now.getTime() + 2 * 86400000))}`, d: new Date(now.getTime() + 2 * 86400000) },
+          { label: `${this.fmtShort(new Date(now.getTime() + 3 * 86400000))}`, d: new Date(now.getTime() + 3 * 86400000) },
+        ];
+        const wrap = document.getElementById('quickDates');
+        wrap.innerHTML = chips.map((c, i) => `
+      <button class="qd-chip" id="qdc_${i}" onclick="sched.pickQuickDate('${this.dateKey(c.d)}',${i})">${c.label}</button>
+    `).join('');
+      },
+
+      pickQuickDate(key, idx) {
+        document.querySelectorAll('.qd-chip').forEach(c => c.classList.remove('active'));
+        document.getElementById('qdc_' + idx).classList.add('active');
+        const [y, m, d] = key.split('-').map(Number);
+        this.showCalendar();
+        this.selectDate(y, m - 1, d);
+      },
+
+      nextWeekday(from, dow) {
+        const d = new Date(from); let diff = (dow - d.getDay() + 7) % 7; if (diff === 0) diff = 7;
+        return new Date(d.getTime() + diff * 86400000);
+      },
+
+      prevMonth() { this.viewMonth--; if (this.viewMonth < 0) { this.viewMonth = 11; this.viewYear--; } this.renderCalendar(); },
+      nextMonth() { this.viewMonth++; if (this.viewMonth > 11) { this.viewMonth = 0; this.viewYear++; } this.renderCalendar(); },
+
+      renderCalendar() {
+        document.getElementById('calMonthLabel').textContent = `${this.MONTHS[this.viewMonth]} ${this.viewYear}`;
+        const now = new Date(); const today = this.dateKey(now);
+        const firstDay = new Date(this.viewYear, this.viewMonth, 1).getDay();
+        const daysInMonth = new Date(this.viewYear, this.viewMonth + 1, 0).getDate();
+
+        const pkKey = this.pickupDate ? this.dateKey2(this.pickupDate) : '';
+        const rtKey = this.returnDate ? this.dateKey2(this.returnDate) : '';
+
+        let html = '';
+        for (let i = 0; i < firstDay; i++) html += `<div class="cal-day cal-day-empty"></div>`;
+        for (let d = 1; d <= daysInMonth; d++) {
+          const key = `${this.viewYear}-${String(this.viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+          const dt = new Date(this.viewYear, this.viewMonth, d);
+          const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          const isPast = dt < todayMidnight;
+          const isTod = key === today;
+          const isSel = key === pkKey || key === rtKey;
+          const inRange = pkKey && rtKey && key > pkKey && key < rtKey;
+
+          let cls = 'cal-day';
+          if (isPast) cls += ' cal-day-disabled';
+          if (isTod) cls += ' cal-day-today';
+          if (isSel) cls += ' cal-day-selected';
+          else if (inRange) cls += ' cal-day-in-range';
+          if (key === pkKey && rtKey && pkKey !== rtKey) cls += ' cal-day-range-start';
+          if (key === rtKey && pkKey && pkKey !== rtKey) cls += ' cal-day-range-end';
+
+          html += `<div class="${cls}" ${!isPast ? `onclick="sched.selectDate(${this.viewYear},${this.viewMonth},${d})"` : ''} >${d}</div>`;
+        }
+        document.getElementById('calDays').innerHTML = html;
+      },
+
+      selectDate(y, m, d) {
+        const obj = { y, m, d };
+        if (this.mode === 'pickup') {
+          this.pickupDate = obj; this.pickupTime = null;
+          // if return is before pickup, reset return
+          if (this.returnDate && this.compareDate(this.returnDate, obj) <= 0) { this.returnDate = null; this.returnTime = null; }
+        } else {
+          const pKey = this.pickupDate ? this.dateKey2(this.pickupDate) : '';
+          const rKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+          if (pKey && rKey < pKey) { this.showErr('Return date cannot be before pickup date.'); return; }
+          this.returnDate = obj; this.returnTime = null;
+        }
+        this.renderCalendar();
+        this.renderTimeSlots();
+        this.updateDisplayBar();
+        this.updatePreview();
+        // auto-advance to return after picking pickup date+time
+      },
+
+      renderTimeSlots() {
+        const wrap = document.getElementById('timePickerWrap');
+        const now = new Date();
+        const activeDate = this.mode === 'pickup' ? this.pickupDate : this.returnDate;
+
+        if (!activeDate) { wrap.innerHTML = `<p style="font-size:13px;color:var(--muted);text-align:center;padding:10px 0">Select a date first to see available slots</p>`; return; }
+
+        const selDate = new Date(activeDate.y, activeDate.m, activeDate.d);
+        const isToday = selDate.toDateString() === now.toDateString();
+        const currentHHMM = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const pkTime = this.pickupTime;
+        const curTime = this.mode === 'pickup' ? null : pkTime;
+
+        const allSlots = [...this.TIMES_AM, ...this.TIMES_PM];
+        const format = t => { const [h, m] = t.split(':').map(Number); const ap = h < 12 ? 'AM' : 'PM'; const h12 = h % 12 || 12; return `${h12}:${String(m).padStart(2, '0')} <span class="slot-period">${ap}</span>`; };
+
+        const mornSlots = this.TIMES_AM;
+        const afSlots = this.TIMES_PM.slice(0, 8);
+        const evSlots = this.TIMES_PM.slice(8);
+
+        const makeSlots = (group, label) => {
+          const btns = group.map(t => {
+            let disabled = false;
+            if (isToday && t <= currentHHMM) disabled = true;
+            if (this.mode === 'return' && this.pickupDate && this.returnDate) {
+              const pdk = this.dateKey2(this.pickupDate); const rdk = this.dateKey2(this.returnDate);
+              if (pdk === rdk && pkTime && t <= pkTime) disabled = true;
+            }
+            const activeT = this.mode === 'pickup' ? this.pickupTime : this.returnTime;
+            const isSel = activeT === t;
+            return `<div class="time-slot${isSel ? ' selected' : ''}${disabled ? ' time-slot-disabled' : ''}" ${!disabled ? `onclick="sched.selectTime('${t}')"` : ''}>${format(t)}</div>`;
+          }).join('');
+          return `<div class="time-section-label">${label}</div><div class="time-slots" style="margin-bottom:12px">${btns}</div>`;
+        };
+
+        wrap.innerHTML = makeSlots(mornSlots, '🌅 Morning') + makeSlots(afSlots, '☀️ Afternoon') + makeSlots(evSlots, '🌆 Evening');
+      },
+
+      selectTime(t) {
+        if (this.mode === 'pickup') {
+          this.pickupTime = t;
+          if (selectedDuration) {
+            const pDT = this.combineDT(this.pickupDate, t);
+            const rDT = new Date(pDT.getTime() + selectedDuration.hours * 3600000);
+            this.returnDate = { y: rDT.getFullYear(), m: rDT.getMonth(), d: rDT.getDate() };
+            const hh = String(rDT.getHours()).padStart(2, '0');
+            const mm = String(rDT.getMinutes()).padStart(2, '0');
+            this.returnTime = `${hh}:${mm}`;
+            this.mode = 'return';
+          } else if (!this.returnDate) {
+            this.mode = 'return';
+          }
+        }
+        else this.returnTime = t;
+        this.renderTimeSlots();
+        this.updateDisplayBar();
+        this.updatePreview();
+        // if both set, animate preview
+        if (this.mode === 'return') this.highlightMode();
+      },
+
+      updateDisplayBar() {
+        const pEl = document.getElementById('ddb_pickup_val');
+        const rEl = document.getElementById('ddb_return_val');
+        if (this.pickupDate && this.pickupTime) {
+          pEl.textContent = this.fmtBar(this.pickupDate, this.pickupTime);
+          pEl.classList.remove('placeholder');
+        } else if (this.pickupDate) {
+          pEl.textContent = this.fmtDate(this.pickupDate) + ' · Select time';
+          pEl.classList.add('placeholder');
+        } else { pEl.textContent = 'Select date & time'; pEl.classList.add('placeholder'); }
+
+        if (this.returnDate && this.returnTime) {
+          rEl.textContent = this.fmtBar(this.returnDate, this.returnTime);
+          rEl.classList.remove('placeholder');
+        } else if (this.returnDate) {
+          rEl.textContent = this.fmtDate(this.returnDate) + ' · Select time';
+          rEl.classList.add('placeholder');
+        } else { rEl.textContent = 'Select date & time'; rEl.classList.add('placeholder'); }
+      },
+
+      updatePreview() {
+        const pEl = document.getElementById('bp_pickup');
+        const rEl = document.getElementById('bp_return');
+        const dEl = document.getElementById('bp_dur');
+        const tEl = document.getElementById('bp_total');
+
+        if (this.pickupDate && this.pickupTime) pEl.textContent = this.fmtBar(this.pickupDate, this.pickupTime);
+        if (this.returnDate && this.returnTime) rEl.textContent = this.fmtBar(this.returnDate, this.returnTime);
+
+        if (this.pickupDate && this.pickupTime && this.returnDate && this.returnTime) {
+          const p = this.combineDT(this.pickupDate, this.pickupTime);
+          const r = this.combineDT(this.returnDate, this.returnTime);
+          const diffMs = r - p;
+          if (diffMs > 0) {
+            const hrs = Math.round(diffMs / 3600000 * 10) / 10;
+            dEl.textContent = hrs >= 24 ? `${(hrs / 24).toFixed(1)} days` : `${hrs} hrs`;
+            if (selectedVehicle) {
+              const cost = Math.round(calculatePrice(selectedVehicle.priceNum, hrs));
+              tEl.textContent = `₹${cost}`;
+            }
+          }
+        }
+      },
+
+      combineDT(date, time) {
+        const [h, m] = time.split(':').map(Number);
+        return new Date(date.y, date.m, date.d, h, m);
+      },
+
+      compareDate(a, b) { return new Date(a.y, a.m, a.d) - new Date(b.y, b.m, b.d); },
+      dateKey(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; },
+      dateKey2(obj) { return `${obj.y}-${String(obj.m + 1).padStart(2, '0')}-${String(obj.d).padStart(2, '0')}`; },
+
+      fmtDate(obj) {
+        const d = new Date(obj.y, obj.m, obj.d);
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', weekday: 'short' });
+      },
+      fmtBar(dateObj, time) {
+        const d = new Date(dateObj.y, dateObj.m, dateObj.d);
+        const dayStr = d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+        const [h, m] = time.split(':').map(Number);
+        const ap = h < 12 ? 'AM' : 'PM'; const h12 = h % 12 || 12;
+        return `${dayStr}, ${h12}:${String(m).padStart(2, '0')} ${ap}`;
+      },
+      fmtFull(dt) {
+        return dt.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      },
+      fmtShort(d) { return d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }); },
+
+      showErr(msg) { showFormErr(msg); }
+    };
+
+    function showFormErr(msg) {
+      const el = document.getElementById('formErr');
+      el.textContent = msg; el.classList.remove('hidden');
+    }
+
+    function formatDT(dt) {
+      if (!dt) return '—';
+      const d = new Date(dt);
+      return d.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    /* ─── PAYMENT OPTION SELECTION ─── */
+    document.addEventListener('change', e => {
+      if (e.target.name === 'pay') {
+        document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+        e.target.closest('.pay-option').classList.add('selected');
+      }
+    });
+
+    /* ─── CONFIRM BOOKING ─── */
+    function confirmBooking() {
+      const chosen = document.querySelector('input[name="pay"]:checked');
+      if (!chosen) {
+        const el = document.getElementById('payErr');
+        el.textContent = 'Please select a payment method.'; el.classList.remove('hidden');
+        return;
+      }
+      const total = sched.currentTotal;
+      userRentalsCount++; // increment rentals for future discounts!
+      
+      const payLabels = { gpay: 'Google Pay', phonepe: 'PhonePe', paytm: 'Paytm', credit: 'Credit Card', debit: 'Debit Card', netbank: 'Net Banking', cash: 'Cash at Pickup' };
+      const bookId = 'GB' + Date.now().toString().slice(-8).toUpperCase();
+
+      document.getElementById('suc_id').textContent = bookId;
+      document.getElementById('suc_bike').textContent = selectedVehicle.name;
+      document.getElementById('suc_dur').textContent = selectedDuration.label;
+      document.getElementById('suc_pay').textContent = payLabels[chosen.value] || chosen.value;
+      document.getElementById('suc_amt').textContent = `₹${total}`;
+
+      closeModal();
+      document.getElementById('successModal').classList.add('open');
+      launchConfetti();
+    }
+
+    /* ─── CONFETTI ─── */
+    function launchConfetti() {
+      const wrap = document.getElementById('confettiWrap');
+      wrap.innerHTML = '';
+      const cols = ['#ff5c1a', '#ff8c42', '#22c55e', '#60a5fa', '#f59e0b', '#c084fc', '#f43f5e', '#fff'];
+      for (let i = 0; i < 80; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetto';
+        c.style.cssText = `left:${Math.random() * 100}%;background:${cols[Math.floor(Math.random() * cols.length)]};animation-duration:${2 + Math.random() * 3}s;animation-delay:${Math.random() * 2}s;transform:rotate(${Math.random() * 360}deg)`;
+        wrap.appendChild(c);
+      }
+      setTimeout(() => wrap.innerHTML = '', 6000);
+    }
+
+    /* ─── RECEIPT DOWNLOAD ─── */
+    function downloadReceipt() {
+      const id = document.getElementById('suc_id').textContent;
+      const bike = document.getElementById('suc_bike').textContent;
+      const dur = document.getElementById('suc_dur').textContent;
+      const pay = document.getElementById('suc_pay').textContent;
+      const amt = document.getElementById('suc_amt').textContent;
+      const pickup = document.getElementById('sum_pickup').textContent;
+      const ret = document.getElementById('sum_return').textContent;
+      const loc = document.getElementById('sum_loc').textContent;
+      const txt = `GoBike — Booking Receipt\n${'─'.repeat(38)}\nBooking ID : ${id}\nBike       : ${bike}\nPickup Pt  : ${loc}\nPickup     : ${pickup}\nReturn     : ${ret}\nDuration   : ${dur}\nPayment    : ${pay}\nAmount     : ${amt}\nDate       : ${new Date().toLocaleString('en-IN')}\n${'─'.repeat(38)}\nThank you for riding with GoBike!\ngobike.in  |  support@gobike.in`;
+      const a = document.createElement('a');
+      a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt);
+      a.download = `GoBike_Receipt_${id}.txt`;
+      a.click();
+    }
+
+    /* ─── GO HOME ─── */
+    function goHome() {
+      document.getElementById('successModal').classList.remove('open');
+      resetPage();
+    }
+
+    /* ─── INIT ─── */
+    displayVehicles(vehicles);
+  </script>
+</body>
+
+</html>
