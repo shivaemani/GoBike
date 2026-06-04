@@ -4,29 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>My Rides - GoBike</title>
+    <title>My Rides — GoBike</title>
     <style>
-        :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1c1c27;
-            --surface3: #242433;
-            --accent: #ff5c1a;
-            --accent2: #ff8c42;
-            --green: #22c55e;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --text: #f0f0f8;
-            --muted: #8888aa;
-            --border: rgba(255, 255, 255, 0.07);
-            --radius: 16px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
-            --header-h: 130px;
-            --ff-head: 'Syne', sans-serif;
-            --ff-body: 'DM Sans', sans-serif;
-        }
+
 
         body {
             font-family: var(--ff-body);
@@ -181,7 +163,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 4px 15px rgba(255, 92, 26, 0.3);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
         .btn:hover {
@@ -231,7 +213,7 @@
         .ride-card.active {
             background: linear-gradient(145deg, var(--surface2), var(--surface));
             border-color: var(--accent);
-            box-shadow: 0 8px 32px rgba(255, 92, 26, 0.1);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
         }
 
         .ride-card.active::before {
@@ -407,7 +389,7 @@
 
             <div class="logo">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <a href="findBike.html">
+                <a href="findbike.html">
                     <h3>Find Bike</h3>
                 </a>
             </div>
@@ -416,6 +398,13 @@
                 <i class="fa-solid fa-road"></i>
                 <a href="myrides.html">
                     <h3>My Rides</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-circle-plus"></i>
+                <a href="listbike.html">
+                    <h3>List Your Bike</h3>
                 </a>
             </div>
 
@@ -441,7 +430,9 @@
 
             <div class="logo">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <h3>Logout</h3>
+                <a href="Index.html">
+                    <h3>Logout</h3>
+                </a>
             </div>
         </aside>
 
@@ -449,7 +440,7 @@
             <header class="topbar">
                 <nav class="nav-top">
                     <div class="welcome">
-                        <h2>Hello, Shiva !</h2>
+                        <h2 id="welcomeGreeting">Hello, Shiva !</h2>
                         <i class="fa-solid fa-hand"></i>
                     </div>
 
@@ -462,13 +453,15 @@
             <div class="content-area">
                 <div class="section-header">
                     <h1>My Rides</h1>
-                    <button class="btn"><i class="fa-solid fa-plus"></i> Book New Ride</button>
+                    <button class="btn" onclick="location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book New Ride</button>
                 </div>
 
                 <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
-                    Active & Upcoming</h2>
-                <div class="rides-grid">
-                    <!-- Active Ride -->
+                    Active &amp; Upcoming</h2>
+                <div class="rides-grid" id="activeRidesGrid">
+                    <!-- Dynamic active and upcoming rides will be injected here -->
+                    
+                    <!-- Hardcoded Active Ride (Fallback/Mock) -->
                     <div class="ride-card active">
                         <div class="ride-header">
                             <div class="bike-info">
@@ -494,12 +487,12 @@
                         </div>
 
                         <div class="ride-actions">
-                            <button class="btn">End Ride</button>
-                            <button class="btn btn-outline"><i class="fa-solid fa-location-arrow"></i> Navigate</button>
+                            <button class="btn" onclick="alert('Ride ended successfully!')">End Ride</button>
+                            <button class="btn btn-outline" onclick="alert('Navigating to pickup...')"><i class="fa-solid fa-location-arrow"></i> Navigate</button>
                         </div>
                     </div>
 
-                    <!-- Upcoming Ride -->
+                    <!-- Hardcoded Upcoming Ride (Fallback/Mock) -->
                     <div class="ride-card">
                         <div class="ride-header">
                             <div class="bike-info">
@@ -525,15 +518,16 @@
                         </div>
 
                         <div class="ride-actions">
-                            <button class="btn btn-outline" style="width: 100%;">Modify Booking</button>
+                            <button class="btn btn-outline" style="width: 100%;" onclick="alert('Modify booking feature coming soon!')">Modify Booking</button>
                         </div>
                     </div>
                 </div>
 
-                <h2
-                    style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
+                <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
                     Ride History</h2>
-                <div class="history-list">
+                <div class="history-list" id="historyList">
+                    <!-- Dynamic completed rides will be injected here -->
+                    
                     <div class="history-item">
                         <div class="history-info">
                             <div class="history-icon">
@@ -585,6 +579,144 @@
             </div>
         </div>
     </div>
-</body>
 
+    <script src="notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+            
+            // Personalize greeting
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (greetingEl) {
+                greetingEl.textContent = `Hello, ${currentUser} !`;
+            }
+
+            // Load and render bookings dynamically
+            renderDynamicBookings(currentUser);
+        });
+
+        function renderDynamicBookings(currentUser) {
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const userBookings = bookings.filter(b => b.user === currentUser);
+
+            const activeGrid = document.getElementById('activeRidesGrid');
+            const historyList = document.getElementById('historyList');
+
+            userBookings.forEach(b => {
+                const pickupDateObj = new Date(b.pickupTime);
+                const isUpcoming = b.status === 'upcoming';
+                
+                if (isUpcoming) {
+                    // Prepend new upcoming ride card to active rides grid
+                    const formattedDate = pickupDateObj.toLocaleDateString('en-IN', {
+                        weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                    });
+
+                    const card = document.createElement('div');
+                    card.className = 'ride-card';
+                    if (b.bikeId) {
+                        // If it's a user listed bike, clicking on it links back to detail page!
+                        card.style.cursor = 'pointer';
+                        card.onclick = () => {
+                            location.href = `bike-details.html?bikeId=${b.bikeId}`;
+                        };
+                    }
+                    card.innerHTML = `
+                        <div class="ride-header">
+                            <div class="bike-info">
+                                <h3>${b.bikeName}</h3>
+                                <p>Booking ID: #${b.bookingId}</p>
+                            </div>
+                            <span class="status-badge status-upcoming">Upcoming</span>
+                        </div>
+
+                        <div class="ride-details">
+                            <div class="detail-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>${formattedDate}</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Pickup: ${b.pickupLocation}</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <span>Estimated: ₹${b.price} (${b.duration})</span>
+                            </div>
+                        </div>
+
+                        <div class="ride-actions">
+                            <button class="btn btn-outline" style="width: 100%;" onclick="event.stopPropagation(); cancelBooking('${b.bookingId}')">Cancel Booking</button>
+                        </div>
+                    `;
+                    activeGrid.insertBefore(card, activeGrid.firstChild);
+                } else {
+                    // Completed or Cancelled ride
+                    const formattedDate = pickupDateObj.toLocaleDateString('en-IN', {
+                        day: 'numeric', month: 'short', year: 'numeric'
+                    });
+                    
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.innerHTML = `
+                        <div class="history-info">
+                            <div class="history-icon">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div class="history-meta">
+                                <h4>${b.bikeName}</h4>
+                                <p>${formattedDate} • ${b.duration}</p>
+                            </div>
+                        </div>
+                        <div class="history-price">
+                            <h4 style="${b.status === 'cancelled' ? 'color: var(--muted);' : ''}">₹${b.price}</h4>
+                            <p style="text-transform: capitalize;">${b.status}</p>
+                        </div>
+                    `;
+                    historyList.insertBefore(item, historyList.firstChild);
+                }
+            });
+        }
+
+        window.cancelBooking = function(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) return;
+            
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const updatedBookings = bookings.map(b => {
+                if (b.bookingId === bookingId) {
+                    b.status = 'cancelled';
+                    
+                    // Generate cancellation notifications
+                    const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+                    if (typeof window.addNotification === 'function') {
+                        window.addNotification(
+                            'Booking Cancelled',
+                            `Your booking for '${b.bikeName}' (ID: ${b.bookingId}) has been cancelled.`,
+                            currentUser,
+                            b.bikeId
+                        );
+
+                        if (b.bikeId) {
+                            // Find owner of the bike to notify them
+                            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+                            const bike = listedBikes.find(x => x.id === b.bikeId);
+                            if (bike) {
+                                window.addNotification(
+                                    'Booking Cancelled by User',
+                                    `${currentUser} has cancelled their booking for your bike '${b.bikeName}'.`,
+                                    bike.ownerName,
+                                    b.bikeId
+                                );
+                            }
+                        }
+                    }
+                }
+                return b;
+            });
+
+            localStorage.setItem('bookings', JSON.stringify(updatedBookings));
+            location.reload();
+        }
+    </script>
+</body>
 </html>

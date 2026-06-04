@@ -1,0 +1,36 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+:root {
+    /* Base Color Palette (Emerald Eco-Cyber) */
+    --bg: #060b0e;
+    --surface: #0c1317;
+    --surface2: #121e24;
+    --surface3: #182830;
+    
+    /* Accents */
+    --accent: #10b981;        /* Emerald green */
+    --accent2: #34d399;       /* Mint green */
+    --accent-glow: rgba(16, 185, 129, 0.15);
+    
+    /* Semantic Colors */
+    --green: #10b981;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    
+    /* Typography Colors */
+    --text: #f0f6f4;
+    --muted: #809c95;
+    
+    /* Layout Details */
+    --border: rgba(16, 185, 129, 0.08);
+    --border-hover: rgba(52, 211, 153, 0.25);
+    --radius: 16px;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --glow: 0 0 40px var(--accent-glow);
+    --header-h: 130px;
+    
+    /* Fonts */
+    --ff-head: 'Syne', sans-serif;
+    --ff-body: 'DM Sans', sans-serif;
+}

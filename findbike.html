@@ -10,29 +10,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="theme.css">
   <style>
-    :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c27;
-      --surface3: #242433;
-      --accent: #ff5c1a;
-      --accent2: #ff8c42;
-      --green: #22c55e;
-      --red: #ef4444;
-      --amber: #f59e0b;
-      --text: #f0f0f8;
-      --muted: #8888aa;
-      --border: rgba(255, 255, 255, 0.07);
-      --radius: 16px;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --glow: 0 0 40px rgba(255, 92, 26, 0.15);
-      --header-h: 130px;
-      --ff-head: 'Syne', sans-serif;
-      --ff-body: 'DM Sans', sans-serif;
-    }
-
     *,
     *::before,
     *::after {
@@ -76,7 +55,7 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(10, 10, 15, 0.92);
+      background: rgba(6, 11, 14, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
@@ -87,8 +66,8 @@
       align-items: center;
       gap: 12px;
       padding: 16px 24px 12px;
-      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0800 100%);
-      border-bottom: 1px solid rgba(255, 92, 26, 0.2);
+      background: linear-gradient(135deg, #051610 0%, #0c2b20 50%, #051610 100%);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
       position: relative;
       overflow: hidden;
     }
@@ -108,7 +87,7 @@
       top: -60px;
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle, rgba(255, 92, 26, 0.25) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
     }
 
     .logo-icon {
@@ -121,7 +100,7 @@
       font-size: 18px;
       position: relative;
       z-index: 1;
-      box-shadow: 0 0 20px rgba(255, 92, 26, 0.5);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
     }
 
     .logo-text {
@@ -171,9 +150,9 @@
     }
 
     .search-bar input:focus {
-      border-color: rgba(255, 92, 26, 0.5);
+      border-color: rgba(16, 185, 129, 0.5);
       background: var(--surface3);
-      box-shadow: 0 0 0 3px rgba(255, 92, 26, 0.08);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08);
     }
 
     .btn {
@@ -204,20 +183,20 @@
     .btn-primary {
       background: var(--accent);
       color: white;
-      box-shadow: 0 4px 16px rgba(255, 92, 26, 0.3);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
     }
 
     .btn-primary:hover {
       background: var(--accent2);
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(255, 92, 26, 0.4);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
 
     .btn-icon {
       padding: 10px 14px;
       background: var(--surface2);
       color: var(--accent);
-      border: 1px solid rgba(255, 92, 26, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.2);
       border-radius: 10px;
       cursor: pointer;
       font-size: 16px;
@@ -225,7 +204,7 @@
     }
 
     .btn-icon:hover {
-      background: rgba(255, 92, 26, 0.1);
+      background: rgba(16, 185, 129, 0.1);
     }
 
     /* ═══ MAIN LAYOUT ═══ */
@@ -264,7 +243,7 @@
       background: var(--accent);
       color: white;
       border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.25);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
 
     .sort-select {
@@ -340,7 +319,7 @@
 
     .vehicle-card:hover {
       transform: translateY(-6px);
-      border-color: rgba(255, 92, 26, 0.3);
+      border-color: rgba(16, 185, 129, 0.3);
       box-shadow: var(--shadow), var(--glow);
     }
 
@@ -437,7 +416,7 @@
       border-radius: 5px;
       font-size: 11px;
       font-weight: 600;
-      background: rgba(255, 92, 26, 0.12);
+      background: rgba(16, 185, 129, 0.12);
       color: var(--accent2);
       margin-bottom: 10px;
     }
@@ -650,7 +629,7 @@
       font-weight: 800;
       padding: 5px 12px;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.4);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
     }
 
     .offer-content {
@@ -799,7 +778,7 @@
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
-      background: rgba(255, 92, 26, 0.12);
+      background: rgba(16, 185, 129, 0.12);
       color: var(--accent2);
     }
 
@@ -959,14 +938,14 @@
     }
 
     .dur-btn:hover {
-      border-color: rgba(255, 92, 26, 0.4);
+      border-color: rgba(16, 185, 129, 0.4);
     }
 
     .dur-btn.selected {
       background: var(--accent);
       border-color: var(--accent);
       color: white;
-      box-shadow: 0 4px 14px rgba(255, 92, 26, 0.3);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
     }
 
     .price-calc {
@@ -1044,8 +1023,8 @@
     }
 
     .form-group input:focus {
-      border-color: rgba(255, 92, 26, 0.5);
-      box-shadow: 0 0 0 3px rgba(255, 92, 26, 0.08);
+      border-color: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08);
     }
 
     .form-group input.error {
@@ -1079,12 +1058,12 @@
     }
 
     .pay-option:hover {
-      border-color: rgba(255, 92, 26, 0.3);
+      border-color: rgba(16, 185, 129, 0.3);
     }
 
     .pay-option.selected {
       border-color: var(--accent);
-      background: rgba(255, 92, 26, 0.08);
+      background: rgba(16, 185, 129, 0.08);
     }
 
     .pay-option .pay-icon {
@@ -1120,7 +1099,7 @@
 
     .summary-header {
       padding: 14px 16px;
-      background: rgba(255, 92, 26, 0.1);
+      background: rgba(16, 185, 129, 0.1);
       border-bottom: 1px solid var(--border);
       font-family: var(--ff-head);
       font-size: 15px;
@@ -1199,7 +1178,7 @@
 
     .step.active .step-dot {
       border-color: var(--accent);
-      background: rgba(255, 92, 26, 0.15);
+      background: rgba(16, 185, 129, 0.15);
       color: var(--accent);
     }
 
@@ -1469,12 +1448,12 @@
     }
 
     .qd-chip:hover {
-      border-color: rgba(255, 92, 26, 0.4);
+      border-color: rgba(16, 185, 129, 0.4);
       color: var(--text);
     }
 
     .qd-chip.active {
-      background: rgba(255, 92, 26, 0.12);
+      background: rgba(16, 185, 129, 0.12);
       border-color: var(--accent);
       color: var(--accent);
     }
@@ -1516,7 +1495,7 @@
     }
 
     .cal-nav:hover {
-      background: rgba(255, 92, 26, 0.15);
+      background: rgba(16, 185, 129, 0.15);
       border-color: var(--accent);
       color: var(--accent);
     }
@@ -1558,7 +1537,7 @@
     }
 
     .cal-day:hover:not(.cal-day-disabled):not(.cal-day-selected) {
-      background: rgba(255, 92, 26, 0.1);
+      background: rgba(16, 185, 129, 0.1);
       color: var(--accent);
     }
 
@@ -1589,22 +1568,22 @@
       background: var(--accent) !important;
       color: white !important;
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.35);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
     }
 
     .cal-day-in-range {
-      background: rgba(255, 92, 26, 0.1);
+      background: rgba(16, 185, 129, 0.1);
       border-radius: 0;
     }
 
     .cal-day-range-start {
       border-radius: 8px 0 0 8px;
-      background: rgba(255, 92, 26, 0.12);
+      background: rgba(16, 185, 129, 0.12);
     }
 
     .cal-day-range-end {
       border-radius: 0 8px 8px 0;
-      background: rgba(255, 92, 26, 0.12);
+      background: rgba(16, 185, 129, 0.12);
     }
 
     .cal-day-empty {
@@ -1642,11 +1621,11 @@
     }
 
     .ddb-cell:hover {
-      background: rgba(255, 92, 26, 0.06);
+      background: rgba(16, 185, 129, 0.06);
     }
 
     .ddb-cell.active {
-      background: rgba(255, 92, 26, 0.1);
+      background: rgba(16, 185, 129, 0.1);
     }
 
     .ddb-label {
@@ -1726,7 +1705,7 @@
     }
 
     .time-slot:hover:not(.time-slot-disabled) {
-      border-color: rgba(255, 92, 26, 0.4);
+      border-color: rgba(16, 185, 129, 0.4);
       color: var(--accent);
     }
 
@@ -1734,7 +1713,7 @@
       background: var(--accent);
       border-color: var(--accent);
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 92, 26, 0.3);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .time-slot-disabled {
@@ -1769,12 +1748,12 @@
     }
 
     .pickup-loc:hover {
-      border-color: rgba(255, 92, 26, 0.3);
+      border-color: rgba(16, 185, 129, 0.3);
     }
 
     .pickup-loc.selected {
       border-color: var(--accent);
-      background: rgba(255, 92, 26, 0.08);
+      background: rgba(16, 185, 129, 0.08);
     }
 
     .pickup-loc .pl-icon {
@@ -1796,8 +1775,8 @@
 
     /* booking live preview pill */
     .booking-preview {
-      background: linear-gradient(135deg, rgba(255, 92, 26, 0.12), rgba(255, 140, 66, 0.08));
-      border: 1px solid rgba(255, 92, 26, 0.25);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.25);
       border-radius: 14px;
       padding: 14px 16px;
       display: flex;
@@ -2363,6 +2342,7 @@
   <div class="confetti-wrap" id="confettiWrap"></div>
 
   <!-- ═══════════════════ SCRIPT ═══════════════════ -->
+  <script src="notifications.js"></script>
   <script>
     /* ─── DATA ─── */
     const vehicles = [
@@ -3032,6 +3012,46 @@
       document.getElementById('suc_pay').textContent = payLabels[chosen.value] || chosen.value;
       document.getElementById('suc_amt').textContent = `₹${total}`;
 
+      // Save Booking to localStorage
+      const customerName = localStorage.getItem('currentUser') || 'Shiva';
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      const newBooking = {
+        bookingId: bookId,
+        bikeName: selectedVehicle.name,
+        bikeId: selectedVehicle.id || null, // BK-XXXX if it is a listed bike
+        pickupLocation: sched.selectedLocation || 'KPHB Hub',
+        pickupTime: sched.pickupDate && sched.pickupTime ? sched.combineDT(sched.pickupDate, sched.pickupTime).toISOString() : new Date().toISOString(),
+        returnTime: sched.returnDate && sched.returnTime ? sched.combineDT(sched.returnDate, sched.returnTime).toISOString() : new Date().toISOString(),
+        duration: selectedDuration.label,
+        price: total,
+        paymentMethod: payLabels[chosen.value] || chosen.value,
+        status: 'upcoming',
+        user: customerName
+      };
+      bookings.push(newBooking);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+
+      // Generate Notifications
+      if (typeof window.addNotification === 'function') {
+        // Notification for Booker
+        window.addNotification(
+          'Booking Confirmed',
+          `Your booking for '${selectedVehicle.name}' (ID: ${bookId}) is confirmed!`,
+          customerName,
+          selectedVehicle.id || null
+        );
+
+        // Notification for Owner (if a listed bike)
+        if (selectedVehicle.id) {
+          window.addNotification(
+            'New Booking on Your Bike',
+            `${customerName} booked your bike '${selectedVehicle.name}' for ${selectedDuration.label}.`,
+            selectedVehicle.ownerName || 'Owner',
+            selectedVehicle.id
+          );
+        }
+      }
+
       closeModal();
       document.getElementById('successModal').classList.add('open');
       launchConfetti();
@@ -3041,7 +3061,7 @@
     function launchConfetti() {
       const wrap = document.getElementById('confettiWrap');
       wrap.innerHTML = '';
-      const cols = ['#ff5c1a', '#ff8c42', '#22c55e', '#60a5fa', '#f59e0b', '#c084fc', '#f43f5e', '#fff'];
+      const cols = ['#10b981', '#34d399', '#22c55e', '#60a5fa', '#f59e0b', '#c084fc', '#f43f5e', '#fff'];
       for (let i = 0; i < 80; i++) {
         const c = document.createElement('div');
         c.className = 'confetto';
@@ -3075,6 +3095,34 @@
     }
 
     /* ─── INIT ─── */
+    const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+    listedBikes.forEach(b => {
+      const formattedBike = {
+        id: b.id,
+        name: b.name,
+        city: b.city || 'Hyderabad',
+        area: b.area || 'KPHB',
+        lat: 17.4947 + (Math.random() - 0.5) * 0.02,
+        lon: 78.3923 + (Math.random() - 0.5) * 0.02,
+        priceNum: b.priceNum,
+        price: b.price,
+        type: b.type || 'bike',
+        category: b.category || 'bike',
+        fuel: b.fuelType,
+        mileage: b.mileage,
+        cc: b.engineCc,
+        image: b.image,
+        rating: b.rating || 5.0,
+        reviews: b.reviews || 0,
+        desc: b.desc || b.bikeHistory || 'A custom listed bike.',
+        ownerName: b.ownerName,
+        ownerEmail: b.ownerEmail,
+        ownerPhone: b.ownerPhone
+      };
+      // Prepend so listed bikes appear first
+      vehicles.unshift(formattedBike);
+    });
+
     displayVehicles(vehicles);
   </script>
 </body>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
+    <title>Bike Listing Details — GoBike</title>
+    <style>
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        aside {
+            width: 300px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--surface);
+            color: var(--text);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            transition: 0.2s;
+        }
+
+        .logo:hover {
+            background: var(--surface3);
+        }
+
+        .logo h2,
+        .logo h3 {
+            margin: 0;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo a:hover {
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: var(--surface2);
+            padding: 0 30px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome h2 {
+            margin: 0;
+            font-family: var(--ff-head);
+        }
+
+        .welcome i {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content Styles */
+        .content-area {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .error-card {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px dashed var(--red);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .error-card h2 {
+            color: var(--red);
+            font-family: var(--ff-head);
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: var(--ff-body);
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--accent2);
+            box-shadow: var(--glow);
+        }
+
+        /* Bike Header Card */
+        .bike-header-card {
+            background: rgba(12, 19, 23, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 25px;
+            display: flex;
+            gap: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .bike-hero-img {
+            width: 200px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .bike-header-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .bike-header-info h1 {
+            font-family: var(--ff-head);
+            font-size: 2.2rem;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff, var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bike-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent2);
+            width: fit-content;
+        }
+
+        .bike-reg-number {
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Dashboard Grid Layout */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 1024px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .details-col {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .details-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .details-card-header {
+            font-family: var(--ff-head);
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--accent2);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-card-header i {
+            color: var(--accent);
+        }
+
+        /* Info rows */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .info-val {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Bike History Textarea Output */
+        .history-text {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--surface2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            white-space: pre-line;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        /* Bookings list styles */
+        .bookings-table-wrap {
+            overflow-x: auto;
+        }
+
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .bookings-table th,
+        .bookings-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bookings-table th {
+            color: var(--muted);
+            font-family: var(--ff-head);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .bookings-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+        }
+
+        .status-upcoming {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+
+        .status-completed {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .no-data {
+            color: var(--muted);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 13px;
+        }
+        
+        /* Local notification sub-widget in card */
+        .local-notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .local-notif-list::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .local-notif-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        .local-notif-icon {
+            color: var(--accent);
+            font-size: 14px;
+        }
+        
+        .local-notif-text {
+            flex: 1;
+        }
+        
+        .local-notif-time {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside>
+            <div class="logo">
+                <i class="fa-solid fa-bicycle"></i>
+                <a href="dashboard.html">
+                    <h2>GoBike</h2>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <a href="findbike.html">
+                    <h3>Find Bike</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-road"></i>
+                <a href="myrides.html">
+                    <h3>My Rides</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-circle-plus"></i>
+                <a href="listbike.html">
+                    <h3>List Your Bike</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h3>Wallet</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-crown"></i>
+                <h3>Membership</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-gear"></i>
+                <h3>Settings</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-headset"></i>
+                <h3>Support</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="Index.html">
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <nav class="nav-top">
+                    <div class="welcome">
+                        <h2>Bike Hub</h2>
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div class="profile">
+                        <img src="shiva.png" alt="profile image">
+                    </div>
+                </nav>
+            </header>
+
+            <div class="content-area">
+                <!-- Dynamic Content Will Be Inserted Here -->
+                <div id="dynamicContent">
+                    <div style="text-align: center; padding: 50px;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; color: var(--accent);"></i>
+                        <p style="margin-top: 15px; color: var(--muted);">Loading bike details...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bikeId = urlParams.get('bikeId');
+
+            if (!bikeId) {
+                renderError('No Bike ID specified in the URL.');
+                return;
+            }
+
+            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+            const bike = listedBikes.find(b => b.id === bikeId);
+
+            if (!bike) {
+                renderError('Listed Bike could not be found or has been removed.');
+                return;
+            }
+
+            renderBikeDetails(bike);
+        });
+
+        function renderError(message) {
+            const dynamicContent = document.getElementById('dynamicContent');
+            dynamicContent.innerHTML = `
+                <div class="error-card">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 48px; color: var(--red); margin-bottom: 15px;"></i>
+                    <h2>Oops! Bike Details Unretrievable</h2>
+                    <p style="color: var(--muted);">${message}</p>
+                    <a href="dashboard.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Go to Dashboard</a>
+                </div>
+            `;
+        }
+
+        function renderBikeDetails(bike) {
+            // Find bookings for this bike
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const bikeBookings = bookings.filter(b => b.bikeId === bike.id || b.bikeName === bike.name);
+
+            // Find notifications for this bike
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            const bikeNotifs = notifications.filter(n => n.bikeId === bike.id);
+            bikeNotifs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            const dynamicContent = document.getElementById('dynamicContent');
+            dynamicContent.innerHTML = `
+                <!-- Bike Header Card -->
+                <div class="bike-header-card">
+                    <img src="${bike.image}" alt="${bike.name}" class="bike-hero-img">
+                    <div class="bike-header-info">
+                        <div class="bike-tag"><i class="fa-solid fa-circle-check"></i> Listed &amp; Active</div>
+                        <h1>${bike.name}</h1>
+                        <div class="bike-reg-number"><i class="fa-solid fa-id-card" style="margin-right: 6px;"></i>Reg Number: ${bike.regNumber}</div>
+                    </div>
+                </div>
+
+                <!-- Main Layout Grid -->
+                <div class="details-grid">
+                    <!-- Left Column: Specs & Owner -->
+                    <div class="details-col">
+                        <!-- Owner Details -->
+                        <div class="details-card">
+                            <div class="details-card-header">
+                                <i class="fa-solid fa-user-tie"></i> Owner Information
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Full Name</span>
+                                <span class="info-val">${bike.ownerName}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email Address</span>
+                                <span class="info-val">${bike.ownerEmail}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Contact Number</span>
+                                <span class="info-val">${bike.ownerPhone || 'N/A'}</span>
+                            </div>
+                        </div>
+
+                        <!-- Specifications -->
+                        <div class="details-card">
+                            <div class="details-card-header">
+                                <i class="fa-solid fa-sliders"></i> Specifications
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Fuel Type</span>
+                                <span class="info-val">${bike.fuelType}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Engine Capacity</span>
+                                <span class="info-val">${bike.engineCc}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Mileage</span>
+                                <span class="info-val">${bike.mileage}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Odometer Reading</span>
+                                <span class="info-val">${bike.odometer ? parseInt(bike.odometer).toLocaleString('en-IN') + ' KMs' : 'N/A'}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">No. of Owners</span>
+                                <span class="info-val">${bike.owners} Owner</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Desired Rent Price</span>
+                                <span class="info-val" style="color: var(--accent); font-weight: bold;">${bike.price}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Pickup Location</span>
+                                <span class="info-val"><i class="fa-solid fa-location-dot" style="color: var(--accent); margin-right: 4px;"></i>${bike.area}, Hyderabad</span>
+                            </div>
+                        </div>
+
+                        <!-- Travelling and Service History -->
+                        <div class="details-card">
+                            <div class="details-card-header">
+                                <i class="fa-solid fa-clock-history"></i> Travelling &amp; Service History
+                            </div>
+                            <div class="history-text">
+                                ${bike.bikeHistory || 'No traveling/service history details provided.'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Bookings & Activity -->
+                    <div class="details-col">
+                        <!-- Bookings History -->
+                        <div class="details-card">
+                            <div class="details-card-header">
+                                <i class="fa-solid fa-file-signature"></i> Bookings on this Bike
+                            </div>
+                            <div class="bookings-table-wrap">
+                                ${renderBookingsTable(bikeBookings)}
+                            </div>
+                        </div>
+
+                        <!-- Activity/Notification Log -->
+                        <div class="details-card">
+                            <div class="details-card-header">
+                                <i class="fa-solid fa-bell"></i> Alerts &amp; Logs
+                            </div>
+                            <div class="local-notif-list">
+                                ${renderLocalNotifs(bikeNotifs)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderBookingsTable(bookingsList) {
+            if (bookingsList.length === 0) {
+                return `<div class="no-data">No bookings registered for this bike yet.</div>`;
+            }
+
+            const rows = bookingsList.map(b => {
+                let statusClass = 'status-completed';
+                if (b.status === 'active') statusClass = 'status-active';
+                else if (b.status === 'upcoming') statusClass = 'status-upcoming';
+
+                const pickupDate = b.pickupTime ? new Date(b.pickupTime).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : '—';
+                const formattedAmt = b.price ? `₹${b.price}` : '—';
+
+                return `
+                    <tr>
+                        <td><strong>${b.user || 'Customer'}</strong></td>
+                        <td>${pickupDate}</td>
+                        <td>${b.duration || '—'}</td>
+                        <td style="color: var(--green); font-weight: 600;">${formattedAmt}</td>
+                        <td><span class="status-badge ${statusClass}">${b.status || 'Completed'}</span></td>
+                    </tr>
+                `;
+            }).join('');
+
+            return `
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booked By</th>
+                            <th>Date</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function renderLocalNotifs(notifs) {
+            if (notifs.length === 0) {
+                return `<div class="no-data">No alerts logged for this bike.</div>`;
+            }
+
+            return notifs.map(n => {
+                const timeStr = new Date(n.timestamp).toLocaleString('en-IN', {
+                    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                });
+                return `
+                    <div class="local-notif-item">
+                        <div class="local-notif-icon"><i class="fa-solid fa-bell"></i></div>
+                        <div class="local-notif-text">
+                            <div style="font-weight: bold; color: var(--text);">${n.title}</div>
+                            <div style="color: var(--muted); margin-top: 2px;">${n.message}</div>
+                            <div class="local-notif-time">${timeStr}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

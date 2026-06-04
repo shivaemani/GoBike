@@ -4,29 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>Document</title>
+    <title>Dashboard — GoBike</title>
     <style>
-        :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1c1c27;
-            --surface3: #242433;
-            --accent: #ff5c1a;
-            --accent2: #ff8c42;
-            --green: #22c55e;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --text: #f0f0f8;
-            --muted: #8888aa;
-            --border: rgba(255, 255, 255, 0.07);
-            --radius: 16px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
-            --header-h: 130px;
-            --ff-head: 'Syne', sans-serif;
-            --ff-body: 'DM Sans', sans-serif;
-        }
+
 
         body {
             font-family: var(--ff-body);
@@ -157,7 +139,7 @@
 
             <div class="logo">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <a href="findBike.html">
+                <a href="findbike.html">
                     <h3>Find Bike</h3>
                 </a>
             </div>
@@ -166,6 +148,13 @@
                 <i class="fa-solid fa-road"></i>
                 <a href="myrides.html">
                     <h3>My Rides</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-circle-plus"></i>
+                <a href="listbike.html">
+                    <h3>List Your Bike</h3>
                 </a>
             </div>
 
@@ -191,16 +180,17 @@
 
             <div class="logo">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <h3>Logout</h3>
+                <a href="Index.html">
+                    <h3>Logout</h3>
+                </a>
             </div>
-
         </aside>
 
         <div class="main">
             <header class="topbar">
                 <nav class="nav-top">
                     <div class="welcome">
-                        <h2>Hello, Shiva !</h2>
+                        <h2 id="welcomeGreeting">Hello, Shiva !</h2>
                         <i class="fa-solid fa-hand"></i>
                     </div>
 
@@ -210,22 +200,30 @@
                 </nav>
             </header>
 
-            <div class="Home">
+            <div class="Home" style="padding: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center; flex: 1; text-align: center;">
                 <b>
-                    <h1>India's #1 Bike Rental Service</h1>
+                    <h1 style="font-family: var(--ff-head); font-size: 3rem; background: linear-gradient(135deg, #ffffff, var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;">India's #1 Bike Rental Service</h1>
                 </b>
-
+                <p style="color: var(--muted); font-size: 1.2rem; max-width: 600px; line-height: 1.6; margin-bottom: 30px;">
+                    Rent smart, ride fast, and earn passive income by listing your own bike. Access eco-friendly travel solutions anywhere in Hyderabad.
+                </p>
+                <div style="display: flex; gap: 20px;">
+                    <a href="findbike.html" style="text-decoration: none; padding: 15px 30px; background: var(--accent); color: var(--bg); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s; box-shadow: var(--shadow);" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='none';">Book a Ride</a>
+                    <a href="listbike.html" style="text-decoration: none; padding: 15px 30px; border: 2px solid var(--accent); color: var(--accent); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.1)';" onmouseout="this.style.background='transparent';">Rent Out Your Bike</a>
+                </div>
             </div>
-
-
-
-
-
-
-
-
-
         </div>
+    </div>
+    
+    <script src="notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (greetingEl) {
+                greetingEl.textContent = `Hello, ${currentUser} !`;
+            }
+        });
+    </script>
 </body>
-
 </html>
