@@ -392,199 +392,215 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
+
+        .back-btn {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--ff-body);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+            background: var(--surface3);
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <aside>
-            <div class="logo">
-                <i class="fa-solid fa-bicycle"></i>
-                <a href="dashboard.html">
-                    <h2>GoBike</h2>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <a href="findBike.html">
-                    <h3>Find Bike</h3>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-road"></i>
-                <a href="myrides.html">
-                    <h3>My Rides</h3>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-wallet"></i>
-                <h3>Wallet</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-crown"></i>
-                <h3>Membership</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-gear"></i>
-                <h3>Settings</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <h3>Logout</h3>
-            </div>
-        </aside>
-
-        <div class="main">
-            <header class="topbar">
-                <nav class="nav-top">
-                    <div class="welcome">
-                        <h2>Hello, Shiva !</h2>
-                        <i class="fa-solid fa-hand"></i>
-                    </div>
-
-                    <div class="profile">
-                        <img src="shiva.png" alt="profile image">
-                    </div>
-                </nav>
-            </header>
-
-            <div class="content-area">
-                <div class="section-header">
-                    <h1>My Rides</h1>
-                    <button class="btn"><i class="fa-solid fa-plus"></i> Book New Ride</button>
+        <div class="content-area">
+            <div class="section-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                    <h1 style="margin: 0;">My Rides</h1>
                 </div>
+                <button class="btn" onclick="window.location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book
+                    New Ride</button>
+            </div>
 
-                <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
-                    Active & Upcoming</h2>
-                <div class="rides-grid">
-                    <!-- Active Ride -->
-                    <div class="ride-card active">
-                        <div class="ride-header">
-                            <div class="bike-info">
-                                <h3>Royal Enfield Classic 350</h3>
-                                <p>Booking ID: #GB-84729</p>
-                            </div>
-                            <span class="status-badge status-active">In Progress</span>
+            <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
+                Active & Upcoming</h2>
+            <div class="rides-grid">
+                <!-- Active Ride -->
+                <div class="ride-card active">
+                    <div class="ride-header">
+                        <div class="bike-info">
+                            <h3>Royal Enfield Classic 350</h3>
+                            <p>Booking ID: #GB-84729</p>
                         </div>
+                        <span class="status-badge status-active">In Progress</span>
+                    </div>
 
-                        <div class="ride-details">
-                            <div class="detail-row">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>Started: Today, 10:30 AM</span>
-                            </div>
-                            <div class="detail-row">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span>Pickup: MG Road Metro Station</span>
-                            </div>
-                            <div class="detail-row">
-                                <i class="fa-solid fa-stopwatch"></i>
-                                <span>Time Elapsed: <strong style="color: var(--text);">2h 15m</strong></span>
-                            </div>
+                    <div class="ride-details">
+                        <div class="detail-row">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Started: Today, 10:30 AM</span>
                         </div>
-
-                        <div class="ride-actions">
-                            <button class="btn">End Ride</button>
-                            <button class="btn btn-outline"><i class="fa-solid fa-location-arrow"></i> Navigate</button>
+                        <div class="detail-row">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Pickup: MG Road Metro Station</span>
+                        </div>
+                        <div class="detail-row">
+                            <i class="fa-solid fa-stopwatch"></i>
+                            <span>Time Elapsed: <strong style="color: var(--text);">2h 15m</strong></span>
                         </div>
                     </div>
 
-                    <!-- Upcoming Ride -->
-                    <div class="ride-card">
-                        <div class="ride-header">
-                            <div class="bike-info">
-                                <h3>KTM Duke 200</h3>
-                                <p>Booking ID: #GB-84788</p>
-                            </div>
-                            <span class="status-badge status-upcoming">Upcoming</span>
-                        </div>
-
-                        <div class="ride-details">
-                            <div class="detail-row">
-                                <i class="fa-regular fa-calendar"></i>
-                                <span>Tomorrow, 09:00 AM</span>
-                            </div>
-                            <div class="detail-row">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span>Pickup: Indiranagar Hub</span>
-                            </div>
-                            <div class="detail-row">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <span>Estimated: ₹850 (12 hours)</span>
-                            </div>
-                        </div>
-
-                        <div class="ride-actions">
-                            <button class="btn btn-outline" style="width: 100%;">Modify Booking</button>
-                        </div>
+                    <div class="ride-actions">
+                        <button class="btn" onclick="endRide(this)">End Ride</button>
+                        <button class="btn btn-outline" onclick="navigateRide()"><i
+                                class="fa-solid fa-location-arrow"></i>
+                            Navigate</button>
                     </div>
                 </div>
 
-                <h2
-                    style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
-                    Ride History</h2>
-                <div class="history-list">
-                    <div class="history-item">
-                        <div class="history-info">
-                            <div class="history-icon">
-                                <i class="fa-solid fa-motorcycle"></i>
-                            </div>
-                            <div class="history-meta">
-                                <h4>Honda Activa 6G</h4>
-                                <p>12 May 2026 • 4 hours</p>
-                            </div>
+                <!-- Upcoming Ride -->
+                <div class="ride-card">
+                    <div class="ride-header">
+                        <div class="bike-info">
+                            <h3>KTM Duke 200</h3>
+                            <p>Booking ID: #GB-84788</p>
                         </div>
-                        <div class="history-price">
-                            <h4>₹320</h4>
-                            <p>Completed</p>
+                        <span class="status-badge status-upcoming">Upcoming</span>
+                    </div>
+
+                    <div class="ride-details">
+                        <div class="detail-row">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Tomorrow, 09:00 AM</span>
+                        </div>
+                        <div class="detail-row">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Pickup: Indiranagar Hub</span>
+                        </div>
+                        <div class="detail-row">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <span>Estimated: ₹850 (12 hours)</span>
                         </div>
                     </div>
 
-                    <div class="history-item">
-                        <div class="history-info">
-                            <div class="history-icon">
-                                <i class="fa-solid fa-motorcycle"></i>
-                            </div>
-                            <div class="history-meta">
-                                <h4>Yamaha R15 V4</h4>
-                                <p>05 May 2026 • 24 hours</p>
-                            </div>
+                    <div class="ride-actions">
+                        <button class="btn btn-outline" style="width: 100%;" onclick="modifyBooking()">Modify
+                            Booking</button>
+                    </div>
+                </div>
+            </div>
+
+            <h2
+                style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
+                Ride History</h2>
+            <div class="history-list">
+                <div class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon">
+                            <i class="fa-solid fa-motorcycle"></i>
                         </div>
-                        <div class="history-price">
-                            <h4>₹1,200</h4>
-                            <p>Completed</p>
+                        <div class="history-meta">
+                            <h4>Honda Activa 6G</h4>
+                            <p>12 May 2026 • 4 hours</p>
                         </div>
                     </div>
+                    <div class="history-price">
+                        <h4>₹320</h4>
+                        <p>Completed</p>
+                    </div>
+                </div>
 
-                    <div class="history-item">
-                        <div class="history-info">
-                            <div class="history-icon">
-                                <i class="fa-solid fa-motorcycle"></i>
-                            </div>
-                            <div class="history-meta">
-                                <h4>Bajaj Avenger 220</h4>
-                                <p>28 Apr 2026 • 8 hours</p>
-                            </div>
+                <div class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon">
+                            <i class="fa-solid fa-motorcycle"></i>
                         </div>
-                        <div class="history-price">
-                            <h4 style="color: var(--muted);">₹0</h4>
-                            <p>Cancelled</p>
+                        <div class="history-meta">
+                            <h4>Yamaha R15 V4</h4>
+                            <p>05 May 2026 • 24 hours</p>
                         </div>
+                    </div>
+                    <div class="history-price">
+                        <h4>₹1,200</h4>
+                        <p>Completed</p>
+                    </div>
+                </div>
+
+                <div class="history-item">
+                    <div class="history-info">
+                        <div class="history-icon">
+                            <i class="fa-solid fa-motorcycle"></i>
+                        </div>
+                        <div class="history-meta">
+                            <h4>Bajaj Avenger 220</h4>
+                            <p>28 Apr 2026 • 8 hours</p>
+                        </div>
+                    </div>
+                    <div class="history-price">
+                        <h4 style="color: var(--muted);">₹0</h4>
+                        <p>Cancelled</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function endRide(btn) {
+            if (confirm('Are you sure you want to end this ride?')) {
+                const card = btn.closest('.ride-card');
+                const bikeName = card.querySelector('.bike-info h3').textContent;
+
+                // Remove from Active & Upcoming
+                card.style.transition = 'all 0.3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95)';
+
+                setTimeout(() => {
+                    card.remove();
+
+                    // Add to Ride History
+                    const historyList = document.querySelector('.history-list');
+                    const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                    const historyHTML = `
+                        <div class="history-item" style="animation: fadeIn 0.5s;">
+                            <div class="history-info">
+                                <div class="history-icon">
+                                    <i class="fa-solid fa-motorcycle"></i>
+                                </div>
+                                <div class="history-meta">
+                                    <h4>${bikeName}</h4>
+                                    <p>${today} • Just now</p>
+                                </div>
+                            </div>
+                            <div class="history-price">
+                                <h4>₹450</h4>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                    `;
+
+                    historyList.insertAdjacentHTML('afterbegin', historyHTML);
+                    alert('Ride ended successfully. Receipt sent to your email.');
+                }, 300);
+            }
+        }
+
+        function navigateRide() {
+            alert('Opening maps for navigation to the bike location...');
+        }
+
+        function modifyBooking() {
+            alert('Opening booking modification options...');
+        }
+    </script>
 </body>
 
 </html>

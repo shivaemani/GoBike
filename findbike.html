@@ -228,6 +228,30 @@
       background: rgba(255, 92, 26, 0.1);
     }
 
+    .back-btn {
+      background: rgba(10, 10, 15, 0.6);
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ff-body);
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 13px;
+      z-index: 10;
+    }
+
+    .back-btn:hover {
+      color: white;
+      background: rgba(255, 92, 26, 0.2);
+      border-color: rgba(255, 92, 26, 0.5);
+    }
+
     /* ═══ MAIN LAYOUT ═══ */
     main {
       padding-top: var(--header-h);
@@ -1923,6 +1947,7 @@
   <!-- HEADER -->
   <header>
     <div class="logo-bar">
+      <a href="dashboard.html" class="back-btn" style="margin-right: 15px;"><i class="fa-solid fa-arrow-left"></i> Back</a>
       <div class="logo-icon"><i class="fa-solid fa-bicycle"></i></div>
       <div class="logo-text">
         <h1>GoBike</h1>

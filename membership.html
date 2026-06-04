@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Membership - GoBike</title>
+    <style>
+        /* Base styles */
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --surface2: #1c1c27;
+            --surface3: #242433;
+            --accent: #ff5c1a;
+            --accent2: #ff8c42;
+            --green: #22c55e;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --text: #f0f0f8;
+            --muted: #8888aa;
+            --border: rgba(255, 255, 255, 0.07);
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
+            --header-h: 130px;
+            --ff-head: 'Syne', sans-serif;
+            --ff-body: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        aside {
+            width: 300px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--surface);
+            color: var(--text);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            transition: 0.2s;
+        }
+
+        .logo:hover {
+            background: var(--surface3);
+        }
+
+        .logo h2,
+        .logo h3 {
+            margin: 0;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo a:hover {
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: var(--surface2);
+            padding: 0 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome h2 {
+            margin: 0;
+            font-family: var(--ff-head);
+        }
+
+        .welcome i {
+            color: var(--amber);
+            font-size: 20px;
+        }
+
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--ff-body);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+            background: var(--surface3);
+        }
+
+        /* Membership Specific Styles */
+        .content-area {
+            padding: 40px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .membership-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .membership-header h1 {
+            font-family: var(--ff-head);
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #ffffff, var(--muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .membership-header p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .plan-card.popular {
+            background: linear-gradient(160deg, var(--surface2), var(--surface));
+            border-color: var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 92, 26, 0.15);
+        }
+
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: var(--glow);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 92, 26, 0.3);
+        }
+
+        .plan-icon {
+            font-size: 2.5rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .plan-card.popular .plan-icon {
+            color: var(--accent);
+        }
+
+        .plan-name {
+            font-family: var(--ff-head);
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 0 0 10px 0;
+        }
+
+        .plan-price {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .plan-price .amount {
+            font-size: 3rem;
+            font-family: var(--ff-head);
+            font-weight: bold;
+        }
+
+        .plan-price .currency {
+            font-size: 1.5rem;
+            vertical-align: super;
+        }
+
+        .plan-price .period {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feature-list i {
+            color: var(--green);
+            margin-top: 4px;
+        }
+
+        .feature-list i.fa-xmark {
+            color: var(--muted);
+        }
+
+        .btn {
+            background: var(--surface3);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-family: var(--ff-body);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--surface);
+            border-color: var(--text);
+        }
+
+        .plan-card.popular .btn {
+            background: var(--accent);
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 92, 26, 0.3);
+        }
+
+        .plan-card.popular .btn:hover {
+            background: var(--accent2);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .current-plan-badge {
+            display: none;
+            text-align: center;
+            color: var(--green);
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 14px 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <header class="topbar">
+                <nav class="nav-top">
+                    <div class="welcome">
+                        <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                        <h2>Hello, Shiva !</h2>
+                        <i class="fa-solid fa-hand"></i>
+                    </div>
+
+                    <div class="profile">
+                        <img src="shiva.png" alt="profile image">
+                    </div>
+                </nav>
+            </header>
+
+            <div class="content-area">
+                <div class="membership-header">
+                    <h1>Choose Your Ride Plan</h1>
+                    <p>Upgrade to a premium membership and enjoy exclusive perks, discounts, and priority support.</p>
+                </div>
+
+                <div class="plans-grid">
+                    <!-- Basic Plan -->
+                    <div class="plan-card" id="plan-basic">
+                        <div class="plan-icon"><i class="fa-solid fa-user"></i></div>
+                        <h3 class="plan-name">Basic</h3>
+                        <div class="plan-price">
+                            <span class="currency">₹</span><span class="amount">0</span><span class="period">/month</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check"></i> Standard bike access</li>
+                            <li><i class="fa-solid fa-check"></i> Pay per ride (standard rates)</li>
+                            <li><i class="fa-solid fa-check"></i> Email support</li>
+                            <li><i class="fa-solid fa-xmark"></i> Priority bookings</li>
+                            <li><i class="fa-solid fa-xmark"></i> Premium bike models</li>
+                        </ul>
+                        <div class="current-plan-badge" style="display: block;">Current Plan</div>
+                        <button class="btn" style="display: none;" onclick="activatePlan('plan-basic', 'Basic')">Activate</button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="plan-card popular" id="plan-pro">
+                        <div class="popular-badge">Most Popular</div>
+                        <div class="plan-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3 class="plan-name">Pro Rider</h3>
+                        <div class="plan-price">
+                            <span class="currency">₹</span><span class="amount">499</span><span class="period">/month</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check"></i> All Basic features</li>
+                            <li><i class="fa-solid fa-check"></i> 10% discount on all rides</li>
+                            <li><i class="fa-solid fa-check"></i> Priority chat support</li>
+                            <li><i class="fa-solid fa-check"></i> 1 Free cancellation per month</li>
+                            <li><i class="fa-solid fa-xmark"></i> Premium bike models</li>
+                        </ul>
+                        <div class="current-plan-badge">Current Plan</div>
+                        <button class="btn" onclick="activatePlan('plan-pro', 'Pro Rider')">Subscribe Now</button>
+                    </div>
+
+                    <!-- Elite Plan -->
+                    <div class="plan-card" id="plan-elite">
+                        <div class="plan-icon"><i class="fa-solid fa-crown"></i></div>
+                        <h3 class="plan-name">Elite</h3>
+                        <div class="plan-price">
+                            <span class="currency">₹</span><span class="amount">999</span><span class="period">/month</span>
+                        </div>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check"></i> All Pro features</li>
+                            <li><i class="fa-solid fa-check"></i> 25% discount on all rides</li>
+                            <li><i class="fa-solid fa-check"></i> 24/7 Priority phone support</li>
+                            <li><i class="fa-solid fa-check"></i> Unlimited free cancellations</li>
+                            <li><i class="fa-solid fa-check"></i> Access to Premium & Superbikes</li>
+                        </ul>
+                        <div class="current-plan-badge">Current Plan</div>
+                        <button class="btn" onclick="activatePlan('plan-elite', 'Elite')">Subscribe Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function activatePlan(planId, planName) {
+            // Confirm activation
+            if (confirm(`Are you sure you want to activate the ${planName} plan?`)) {
+                // Reset all plans
+                const allCards = document.querySelectorAll('.plan-card');
+                allCards.forEach(card => {
+                    const badge = card.querySelector('.current-plan-badge');
+                    const btn = card.querySelector('.btn');
+                    
+                    if (badge) badge.style.display = 'none';
+                    if (btn) btn.style.display = 'block';
+                    
+                    // Keep the popular styling but remove active state logic if needed
+                    // Alternatively, add a special class to active plan
+                    card.style.borderColor = 'var(--border)';
+                });
+                
+                // Activate selected plan
+                const activeCard = document.getElementById(planId);
+                const activeBadge = activeCard.querySelector('.current-plan-badge');
+                const activeBtn = activeCard.querySelector('.btn');
+                
+                activeBadge.style.display = 'block';
+                activeBtn.style.display = 'none';
+                activeCard.style.borderColor = 'var(--green)';
+                
+                // Show success message
+                alert(`Success! You are now subscribed to the ${planName} membership. Enjoy your premium features!`);
+            }
+        }
+    </script>
+</body>
+
+</html>
