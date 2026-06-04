@@ -4,29 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>My Rides - GoBike</title>
+    <title>My Rides — GoBike</title>
     <style>
-        :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1c1c27;
-            --surface3: #242433;
-            --accent: #ff5c1a;
-            --accent2: #ff8c42;
-            --green: #22c55e;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --text: #f0f0f8;
-            --muted: #8888aa;
-            --border: rgba(255, 255, 255, 0.07);
-            --radius: 16px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
-            --header-h: 130px;
-            --ff-head: 'Syne', sans-serif;
-            --ff-body: 'DM Sans', sans-serif;
-        }
+
 
         body {
             font-family: var(--ff-body);
@@ -181,7 +163,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 4px 15px rgba(255, 92, 26, 0.3);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
         .btn:hover {
@@ -231,7 +213,7 @@
         .ride-card.active {
             background: linear-gradient(145deg, var(--surface2), var(--surface));
             border-color: var(--accent);
-            box-shadow: 0 8px 32px rgba(255, 92, 26, 0.1);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
         }
 
         .ride-card.active::before {
@@ -392,27 +374,6 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
-
-        .back-btn {
-            background: transparent;
-            color: var(--muted);
-            border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--ff-body);
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .back-btn:hover {
-            color: var(--text);
-            background: var(--surface3);
-        }
     </style>
 </head>
 
@@ -424,183 +385,269 @@
                     <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
                     <h1 style="margin: 0;">My Rides</h1>
                 </div>
-                <button class="btn" onclick="window.location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book
-                    New Ride</button>
+                <button class="btn" onclick="location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book New Ride</button>
             </div>
 
-            <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
-                Active & Upcoming</h2>
-            <div class="rides-grid">
-                <!-- Active Ride -->
-                <div class="ride-card active">
-                    <div class="ride-header">
-                        <div class="bike-info">
-                            <h3>Royal Enfield Classic 350</h3>
-                            <p>Booking ID: #GB-84729</p>
+                <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
+                    Active &amp; Upcoming</h2>
+                <div class="rides-grid" id="activeRidesGrid">
+                    <!-- Dynamic active and upcoming rides will be injected here -->
+                    
+                    <!-- Hardcoded Active Ride (Fallback/Mock) -->
+                    <div class="ride-card active">
+                        <div class="ride-header">
+                            <div class="bike-info">
+                                <h3>Royal Enfield Classic 350</h3>
+                                <p>Booking ID: #GB-84729</p>
+                            </div>
+                            <span class="status-badge status-active">In Progress</span>
                         </div>
-                        <span class="status-badge status-active">In Progress</span>
+
+                        <div class="ride-details">
+                            <div class="detail-row">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>Started: Today, 10:30 AM</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Pickup: MG Road Metro Station</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-stopwatch"></i>
+                                <span>Time Elapsed: <strong style="color: var(--text);">2h 15m</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="ride-actions">
+                            <button class="btn" onclick="alert('Ride ended successfully!')">End Ride</button>
+                            <button class="btn btn-outline" onclick="alert('Navigating to pickup...')"><i class="fa-solid fa-location-arrow"></i> Navigate</button>
+                        </div>
                     </div>
 
-                    <div class="ride-details">
-                        <div class="detail-row">
-                            <i class="fa-regular fa-clock"></i>
-                            <span>Started: Today, 10:30 AM</span>
+                    <!-- Hardcoded Upcoming Ride (Fallback/Mock) -->
+                    <div class="ride-card">
+                        <div class="ride-header">
+                            <div class="bike-info">
+                                <h3>KTM Duke 200</h3>
+                                <p>Booking ID: #GB-84788</p>
+                            </div>
+                            <span class="status-badge status-upcoming">Upcoming</span>
                         </div>
-                        <div class="detail-row">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Pickup: MG Road Metro Station</span>
-                        </div>
-                        <div class="detail-row">
-                            <i class="fa-solid fa-stopwatch"></i>
-                            <span>Time Elapsed: <strong style="color: var(--text);">2h 15m</strong></span>
-                        </div>
-                    </div>
 
-                    <div class="ride-actions">
-                        <button class="btn" onclick="endRide(this)">End Ride</button>
-                        <button class="btn btn-outline" onclick="navigateRide()"><i
-                                class="fa-solid fa-location-arrow"></i>
-                            Navigate</button>
+                        <div class="ride-details">
+                            <div class="detail-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>Tomorrow, 09:00 AM</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Pickup: Indiranagar Hub</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <span>Estimated: ₹850 (12 hours)</span>
+                            </div>
+                        </div>
+
+                        <div class="ride-actions">
+                            <button class="btn btn-outline" style="width: 100%;" onclick="alert('Modify booking feature coming soon!')">Modify Booking</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Upcoming Ride -->
-                <div class="ride-card">
-                    <div class="ride-header">
-                        <div class="bike-info">
-                            <h3>KTM Duke 200</h3>
-                            <p>Booking ID: #GB-84788</p>
+                <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
+                    Ride History</h2>
+                <div class="history-list" id="historyList">
+                    <!-- Dynamic completed rides will be injected here -->
+                    
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-icon">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div class="history-meta">
+                                <h4>Honda Activa 6G</h4>
+                                <p>12 May 2026 • 4 hours</p>
+                            </div>
                         </div>
-                        <span class="status-badge status-upcoming">Upcoming</span>
-                    </div>
-
-                    <div class="ride-details">
-                        <div class="detail-row">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span>Tomorrow, 09:00 AM</span>
-                        </div>
-                        <div class="detail-row">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>Pickup: Indiranagar Hub</span>
-                        </div>
-                        <div class="detail-row">
-                            <i class="fa-solid fa-indian-rupee-sign"></i>
-                            <span>Estimated: ₹850 (12 hours)</span>
+                        <div class="history-price">
+                            <h4>₹320</h4>
+                            <p>Completed</p>
                         </div>
                     </div>
 
-                    <div class="ride-actions">
-                        <button class="btn btn-outline" style="width: 100%;" onclick="modifyBooking()">Modify
-                            Booking</button>
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-icon">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div class="history-meta">
+                                <h4>Yamaha R15 V4</h4>
+                                <p>05 May 2026 • 24 hours</p>
+                            </div>
+                        </div>
+                        <div class="history-price">
+                            <h4>₹1,200</h4>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-icon">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div class="history-meta">
+                                <h4>Bajaj Avenger 220</h4>
+                                <p>28 Apr 2026 • 8 hours</p>
+                            </div>
+                        </div>
+                        <div class="history-price">
+                            <h4 style="color: var(--muted);">₹0</h4>
+                            <p>Cancelled</p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <h2
-                style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; margin-top: 50px; color: var(--text);">
-                Ride History</h2>
-            <div class="history-list">
-                <div class="history-item">
-                    <div class="history-info">
-                        <div class="history-icon">
-                            <i class="fa-solid fa-motorcycle"></i>
-                        </div>
-                        <div class="history-meta">
-                            <h4>Honda Activa 6G</h4>
-                            <p>12 May 2026 • 4 hours</p>
-                        </div>
-                    </div>
-                    <div class="history-price">
-                        <h4>₹320</h4>
-                        <p>Completed</p>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-info">
-                        <div class="history-icon">
-                            <i class="fa-solid fa-motorcycle"></i>
-                        </div>
-                        <div class="history-meta">
-                            <h4>Yamaha R15 V4</h4>
-                            <p>05 May 2026 • 24 hours</p>
-                        </div>
-                    </div>
-                    <div class="history-price">
-                        <h4>₹1,200</h4>
-                        <p>Completed</p>
-                    </div>
-                </div>
-
-                <div class="history-item">
-                    <div class="history-info">
-                        <div class="history-icon">
-                            <i class="fa-solid fa-motorcycle"></i>
-                        </div>
-                        <div class="history-meta">
-                            <h4>Bajaj Avenger 220</h4>
-                            <p>28 Apr 2026 • 8 hours</p>
-                        </div>
-                    </div>
-                    <div class="history-price">
-                        <h4 style="color: var(--muted);">₹0</h4>
-                        <p>Cancelled</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <script src="notifications.js"></script>
     <script>
-        function endRide(btn) {
-            if (confirm('Are you sure you want to end this ride?')) {
-                const card = btn.closest('.ride-card');
-                const bikeName = card.querySelector('.bike-info h3').textContent;
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+            
+            // Personalize greeting
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (greetingEl) {
+                greetingEl.textContent = `Hello, ${currentUser} !`;
+            }
 
-                // Remove from Active & Upcoming
-                card.style.transition = 'all 0.3s ease';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.95)';
+            // Load and render bookings dynamically
+            renderDynamicBookings(currentUser);
+        });
 
-                setTimeout(() => {
-                    card.remove();
+        function renderDynamicBookings(currentUser) {
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const userBookings = bookings.filter(b => b.user === currentUser);
 
-                    // Add to Ride History
-                    const historyList = document.querySelector('.history-list');
-                    const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            const activeGrid = document.getElementById('activeRidesGrid');
+            const historyList = document.getElementById('historyList');
 
-                    const historyHTML = `
-                        <div class="history-item" style="animation: fadeIn 0.5s;">
-                            <div class="history-info">
-                                <div class="history-icon">
-                                    <i class="fa-solid fa-motorcycle"></i>
-                                </div>
-                                <div class="history-meta">
-                                    <h4>${bikeName}</h4>
-                                    <p>${today} • Just now</p>
-                                </div>
+            userBookings.forEach(b => {
+                const pickupDateObj = new Date(b.pickupTime);
+                const isUpcoming = b.status === 'upcoming';
+                
+                if (isUpcoming) {
+                    // Prepend new upcoming ride card to active rides grid
+                    const formattedDate = pickupDateObj.toLocaleDateString('en-IN', {
+                        weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                    });
+
+                    const card = document.createElement('div');
+                    card.className = 'ride-card';
+                    if (b.bikeId) {
+                        // If it's a user listed bike, clicking on it links back to detail page!
+                        card.style.cursor = 'pointer';
+                        card.onclick = () => {
+                            location.href = `bike-details.html?bikeId=${b.bikeId}`;
+                        };
+                    }
+                    card.innerHTML = `
+                        <div class="ride-header">
+                            <div class="bike-info">
+                                <h3>${b.bikeName}</h3>
+                                <p>Booking ID: #${b.bookingId}</p>
                             </div>
-                            <div class="history-price">
-                                <h4>₹450</h4>
-                                <p>Completed</p>
+                            <span class="status-badge status-upcoming">Upcoming</span>
+                        </div>
+
+                        <div class="ride-details">
+                            <div class="detail-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>${formattedDate}</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>Pickup: ${b.pickupLocation}</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <span>Estimated: ₹${b.price} (${b.duration})</span>
                             </div>
                         </div>
+
+                        <div class="ride-actions">
+                            <button class="btn btn-outline" style="width: 100%;" onclick="event.stopPropagation(); cancelBooking('${b.bookingId}')">Cancel Booking</button>
+                        </div>
                     `;
-
-                    historyList.insertAdjacentHTML('afterbegin', historyHTML);
-                    alert('Ride ended successfully. Receipt sent to your email.');
-                }, 300);
-            }
+                    activeGrid.insertBefore(card, activeGrid.firstChild);
+                } else {
+                    // Completed or Cancelled ride
+                    const formattedDate = pickupDateObj.toLocaleDateString('en-IN', {
+                        day: 'numeric', month: 'short', year: 'numeric'
+                    });
+                    
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.innerHTML = `
+                        <div class="history-info">
+                            <div class="history-icon">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <div class="history-meta">
+                                <h4>${b.bikeName}</h4>
+                                <p>${formattedDate} • ${b.duration}</p>
+                            </div>
+                        </div>
+                        <div class="history-price">
+                            <h4 style="${b.status === 'cancelled' ? 'color: var(--muted);' : ''}">₹${b.price}</h4>
+                            <p style="text-transform: capitalize;">${b.status}</p>
+                        </div>
+                    `;
+                    historyList.insertBefore(item, historyList.firstChild);
+                }
+            });
         }
 
-        function navigateRide() {
-            alert('Opening maps for navigation to the bike location...');
-        }
+        window.cancelBooking = function(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) return;
+            
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const updatedBookings = bookings.map(b => {
+                if (b.bookingId === bookingId) {
+                    b.status = 'cancelled';
+                    
+                    // Generate cancellation notifications
+                    const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+                    if (typeof window.addNotification === 'function') {
+                        window.addNotification(
+                            'Booking Cancelled',
+                            `Your booking for '${b.bikeName}' (ID: ${b.bookingId}) has been cancelled.`,
+                            currentUser,
+                            b.bikeId
+                        );
 
-        function modifyBooking() {
-            alert('Opening booking modification options...');
+                        if (b.bikeId) {
+                            // Find owner of the bike to notify them
+                            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+                            const bike = listedBikes.find(x => x.id === b.bikeId);
+                            if (bike) {
+                                window.addNotification(
+                                    'Booking Cancelled by User',
+                                    `${currentUser} has cancelled their booking for your bike '${b.bikeName}'.`,
+                                    bike.ownerName,
+                                    b.bikeId
+                                );
+                            }
+                        }
+                    }
+                }
+                return b;
+            });
+
+            localStorage.setItem('bookings', JSON.stringify(updatedBookings));
+            location.reload();
         }
     </script>
 </body>
-
 </html>

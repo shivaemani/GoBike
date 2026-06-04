@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up — GoBike</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Login — GoBike Partner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="theme.css">
     <style>
@@ -14,10 +14,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            padding: 40px 0;
-            box-sizing: border-box;
+            overflow: hidden;
             position: relative;
         }
 
@@ -51,7 +50,7 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            width: 420px;
+            width: 400px;
             padding: 40px;
             box-shadow: var(--shadow), var(--glow);
             text-align: center;
@@ -76,23 +75,43 @@
             margin: 0;
         }
 
+        .badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent2);
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
         h1 {
             font-family: var(--ff-head);
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             color: var(--text);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         form {
             display: flex;
             flex-direction: column;
             text-align: left;
-            gap: 18px;
         }
 
         .input-field {
             position: relative;
+            margin-bottom: 20px;
         }
 
         .input-field i {
@@ -117,11 +136,6 @@
             outline: none;
             box-sizing: border-box;
             transition: all 0.3s ease;
-        }
-
-        .input-field input::placeholder {
-            color: var(--muted);
-            opacity: 0.6;
         }
 
         .input-field input:focus {
@@ -155,38 +169,21 @@
             box-shadow: var(--glow);
         }
 
-        .login-link {
+        .links-row {
+            display: flex;
+            justify-content: space-between;
             margin-top: 25px;
-            font-size: 14px;
-            color: var(--muted);
-            text-align: center;
-        }
-
-        .login-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .login-link a:hover {
-            color: var(--accent2);
-            text-decoration: underline;
-        }
-
-        .back-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--muted);
-            text-decoration: none;
             font-size: 13px;
-            margin-top: 20px;
+        }
+
+        .links-row a {
+            color: var(--muted);
+            text-decoration: none;
             transition: color 0.3s;
         }
 
-        .back-home:hover {
-            color: var(--text);
+        .links-row a:hover {
+            color: var(--accent);
         }
     </style>
 </head>
@@ -196,66 +193,71 @@
             <i class="fa-solid fa-bicycle"></i>
             <h2>GoBike</h2>
         </div>
-        <h1>Sign Up</h1>
+        <div>
+            <span class="badge">Partner Portal</span>
+        </div>
+        <h1 id="bikeNameHeader">Owner Login</h1>
+        <div class="subtitle" id="bikeRegSub">Access your dashboard to view bookings and track your money earned.</div>
 
-        <form id="signupForm" onsubmit="handleSignup(event)" autocomplete="on">
+        <form id="ownerLoginForm" onsubmit="handleOwnerLogin(event)">
             <div class="input-field">
-                <input type="text" id="name" placeholder="Full Name" required>
-                <i class="fa-solid fa-user"></i>
-            </div>
-
-            <div class="input-field">
-                <input type="email" id="mail" placeholder="Email Address" required>
+                <input type="text" id="ownerEmail" placeholder="Owner Email or Username" required>
                 <i class="fa-solid fa-envelope"></i>
             </div>
 
             <div class="input-field">
-                <input type="tel" id="number" placeholder="Mobile Number" required>
-                <i class="fa-solid fa-phone"></i>
-            </div>
-
-            <div class="input-field">
-                <input type="password" id="password1" placeholder="Create Password" required>
+                <input type="password" id="ownerPassword" placeholder="Access Password" required>
                 <i class="fa-solid fa-lock"></i>
             </div>
 
-            <div class="input-field">
-                <input type="password" id="password2" placeholder="Confirm Password" required>
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-
-            <button type="submit">Sign Up</button>
+            <button type="submit">Owner Login</button>
         </form>
 
-        <p class="login-link">Already have an account? <a href="login.html">Login</a></p>
-        <a href="Index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <div class="links-row">
+            <a href="portal-select.html"><i class="fa-solid fa-arrow-left"></i> Portals</a>
+            <a href="listbike.html">List Another Bike</a>
+        </div>
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect');
+        let currentBikeId = '';
 
-        if (redirectUrl) {
-            const loginLink = document.querySelector('.login-link a');
-            if (loginLink) {
-                loginLink.href = `login.html?redirect=${encodeURIComponent(redirectUrl)}`;
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentBikeId = urlParams.get('bikeId');
 
-        function handleSignup(event) {
-            event.preventDefault();
-            const nameInput = document.getElementById('name').value.trim();
-            const emailInput = document.getElementById('mail').value.trim();
-            const phoneInput = document.getElementById('number').value.trim();
+            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+            let targetBike = null;
 
-            localStorage.setItem('currentUser', nameInput || 'Shiva');
-            localStorage.setItem('currentUserEmail', emailInput || 'shiva@gmail.com');
-            localStorage.setItem('currentUserPhone', phoneInput || '9876543210');
-
-            if (redirectUrl) {
-                window.location.href = `login.html?redirect=${encodeURIComponent(redirectUrl)}`;
+            if (currentBikeId) {
+                targetBike = listedBikes.find(b => b.id === currentBikeId);
             } else {
-                window.location.href = 'login.html';
+                // If no bikeId in query, check if the current user owns any bike
+                const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+                targetBike = listedBikes.find(b => b.ownerName === currentUser);
+                if (targetBike) {
+                    currentBikeId = targetBike.id;
+                }
+            }
+
+            if (targetBike) {
+                document.getElementById('bikeNameHeader').textContent = targetBike.name;
+                document.getElementById('bikeRegSub').textContent = `Owner Login Portal for ${targetBike.regNumber}`;
+                document.getElementById('ownerEmail').value = targetBike.ownerEmail || '';
+                // Autofill password for testing
+                document.getElementById('ownerPassword').value = '••••••••';
+            }
+        });
+
+        function handleOwnerLogin(event) {
+            event.preventDefault();
+            
+            // Allow mock login
+            if (currentBikeId) {
+                window.location.href = `owner-dashboard.html?bikeId=${currentBikeId}`;
+            } else {
+                alert('No active bike listing linked. Please list a bike first.');
+                window.location.href = 'listbike.html';
             }
         }
     </script>

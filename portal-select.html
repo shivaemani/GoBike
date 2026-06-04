@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Portal — GoBike</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
+    <style>
+        body {
+            font-family: var(--ff-body);
+            background: radial-gradient(circle at top right, var(--surface), var(--bg));
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(52, 211, 153, 0.06) 0%, transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logo-container i {
+            color: var(--accent);
+            font-size: 32px;
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4));
+        }
+
+        .logo-container h2 {
+            font-family: var(--ff-head);
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        h1 {
+            font-family: var(--ff-head);
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff, var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .portal-card {
+            background: rgba(12, 19, 23, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow), var(--glow);
+        }
+
+        .portal-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .portal-card:hover .portal-icon {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            transform: scale(1.1);
+        }
+
+        .portal-card h2 {
+            font-family: var(--ff-head);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .portal-card p {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .btn-portal {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: var(--surface2);
+            color: var(--text);
+            font-family: var(--ff-body);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .portal-card:hover .btn-portal {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 40px;
+            transition: color 0.3s;
+        }
+
+        .logout-link:hover {
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <i class="fa-solid fa-bicycle"></i>
+            <h2>GoBike</h2>
+        </div>
+        <h1 id="welcomeText">Welcome, Shiva!</h1>
+        <div class="subtitle">Select the portal you want to access for this session.</div>
+
+        <div class="cards-grid">
+            <!-- Rider Card -->
+            <div class="portal-card" onclick="enterRiderPortal()">
+                <div class="portal-icon">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                </div>
+                <h2>Rider Portal</h2>
+                <p>Find nearby bikes and scooters, book instant rides, manage schedules, and track active trips.</p>
+                <button class="btn-portal">Book a Bike</button>
+            </div>
+
+            <!-- Partner Card -->
+            <div class="portal-card" onclick="enterPartnerPortal()">
+                <div class="portal-icon">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <h2>Partner Portal</h2>
+                <p>List your bike, manage bookings, check traveling logs, view earnings charts, and collect payouts.</p>
+                <button class="btn-portal">Rent Your Bike</button>
+            </div>
+        </div>
+
+        <a href="Index.html" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout &amp; Exit</a>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+            const welcomeText = document.getElementById('welcomeText');
+            if (welcomeText) {
+                welcomeText.textContent = `Welcome back, ${currentUser}!`;
+            }
+        });
+
+        function enterRiderPortal() {
+            window.location.href = 'dashboard.html';
+        }
+
+        function enterPartnerPortal() {
+            const currentUser = localStorage.getItem('currentUser') || 'Shiva';
+            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+            
+            // Check if user has already listed a bike
+            const userBikes = listedBikes.filter(b => b.ownerName === currentUser);
+            
+            if (userBikes.length > 0) {
+                // Take them to owner dashboard directly
+                window.location.href = `owner-login.html?bikeId=${userBikes[0].id}`;
+            } else {
+                // New partner — take them straight to listing form
+                window.location.href = 'listbike.html';
+            }
+        }
+    </script>
+</body>
+</html>

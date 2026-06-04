@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Owner Dashboard — GoBike Partner</title>
+    <!-- Chart.js for premium graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        aside {
+            width: 300px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--surface);
+            color: var(--text);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            transition: 0.2s;
+        }
+
+        .logo:hover {
+            background: var(--surface3);
+        }
+
+        .logo h2,
+        .logo h3 {
+            margin: 0;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo a:hover {
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: var(--surface2);
+            padding: 0 30px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome h2 {
+            margin: 0;
+            font-family: var(--ff-head);
+        }
+
+        .welcome i {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content Styles */
+        .content-area {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0.5;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-val {
+            font-family: var(--ff-head);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .stat-val.highlight {
+            color: var(--accent2);
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
+        }
+
+        .stat-desc {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* Analytics Chart Container */
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .chart-title {
+            font-family: var(--ff-head);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 280px;
+            width: 100%;
+        }
+
+        /* Data Layout */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 1024px) {
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .data-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-card-header {
+            font-family: var(--ff-head);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent2);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Table styles */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--muted);
+            font-family: var(--ff-head);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+        }
+
+        .status-upcoming {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+
+        .status-completed {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .no-data {
+            color: var(--muted);
+            text-align: center;
+            padding: 30px 0;
+            font-size: 13px;
+        }
+
+        .bike-header-panel {
+            background: rgba(12, 19, 23, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .bike-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bike-img {
+            width: 100px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .bike-details h2 {
+            margin: 0 0 5px 0;
+            font-family: var(--ff-head);
+            font-size: 20px;
+        }
+
+        .bike-details p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .owner-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--ff-body);
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--surface3);
+            border-color: var(--border-hover);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent2);
+            color: var(--bg);
+            box-shadow: var(--glow);
+        }
+        
+        .error-card {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px dashed var(--red);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .error-card h2 {
+            color: var(--red);
+            font-family: var(--ff-head);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside>
+            <div class="logo">
+                <i class="fa-solid fa-bicycle"></i>
+                <a href="portal-select.html">
+                    <h2>GoBike Partner</h2>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
+                <a href="#" id="sidebarDash">
+                    <h3>Dashboard</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-road"></i>
+                <a href="myrides.html">
+                    <h3>Switch to Rider</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-circle-plus"></i>
+                <a href="listbike.html">
+                    <h3>List Another Bike</h3>
+                </a>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h3>Earnings History</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-gear"></i>
+                <h3>Settings</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-headset"></i>
+                <h3>Support</h3>
+            </div>
+
+            <div class="logo">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="Index.html">
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Body -->
+        <div class="main">
+            <header class="topbar">
+                <nav class="nav-top">
+                    <div class="welcome">
+                        <h2>Partner Dashboard</h2>
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+
+                    <div class="profile">
+                        <img src="shiva.png" alt="profile image">
+                    </div>
+                </nav>
+            </header>
+
+            <div class="content-area" id="mainContent">
+                <!-- Spinnner Loader -->
+                <div style="text-align: center; padding: 50px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; color: var(--accent);"></i>
+                    <p style="margin-top: 15px; color: var(--muted);">Loading partner statistics...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+    <script>
+        let chartInstance = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bikeId = urlParams.get('bikeId');
+
+            if (!bikeId) {
+                renderError('No listed Bike ID provided.');
+                return;
+            }
+
+            const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
+            const bike = listedBikes.find(b => b.id === bikeId);
+
+            if (!bike) {
+                renderError('Listed Bike could not be found.');
+                return;
+            }
+
+            // Sync sidebar link
+            const sidebarDash = document.getElementById('sidebarDash');
+            if (sidebarDash) sidebarDash.href = `owner-dashboard.html?bikeId=${bikeId}`;
+
+            renderDashboard(bike);
+        });
+
+        function renderError(message) {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="error-card">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 48px; color: var(--red); margin-bottom: 15px;"></i>
+                    <h2>Dashboard Load Failure</h2>
+                    <p style="color: var(--muted);">${message}</p>
+                    <a href="portal-select.html" class="btn btn-primary" style="margin-top: 15px; display: inline-flex;"><i class="fa-solid fa-arrow-left"></i> Go to Portal Selector</a>
+                </div>
+            `;
+        }
+
+        function renderDashboard(bike) {
+            // 1. Fetch real bookings from localStorage
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const bikeBookings = bookings.filter(b => b.bikeId === bike.id || b.bikeName === bike.name);
+
+            // 2. Calculate dynamic stats
+            // Completed & Upcoming bookings
+            const activeBookings = bikeBookings.filter(b => b.status !== 'cancelled');
+            const totalBookingsCount = activeBookings.length;
+            
+            // Total Earnings
+            const totalEarnings = activeBookings.reduce((sum, b) => sum + parseInt(b.price || 0), 0);
+
+            // Odometer and Traveling KMs
+            // We assume each trip adds KMs based on duration.
+            // 1 hour = ~15 KMs.
+            let travelingKMs = 0;
+            const tripLogs = [];
+
+            // Add mock trips for background history so it looks rich
+            const mockRiders = ['Aman Sharma', 'Vikram Rao', 'Siddharth Roy', 'Pranav K'];
+            const mockDates = ['28 May 2026', '30 May 2026', '01 Jun 2026', '03 Jun 2026'];
+            const mockHours = [4, 12, 6, 2];
+            const mockRates = [bike.priceNum, bike.priceNum, bike.priceNum, bike.priceNum];
+
+            // Build base mock data (Traveling list)
+            let baseOdo = bike.odometer || 12000;
+            let currentOdo = baseOdo;
+
+            for (let i = 0; i < mockRiders.length; i++) {
+                const distance = mockHours[i] * 15;
+                const cost = mockHours[i] * mockRates[i];
+                tripLogs.push({
+                    rider: mockRiders[i],
+                    date: mockDates[i],
+                    duration: `${mockHours[i]} hrs`,
+                    distance: `${distance} KMs`,
+                    odoStart: currentOdo,
+                    odoEnd: currentOdo + distance,
+                    cost: cost
+                });
+                currentOdo += distance;
+                travelingKMs += distance;
+            }
+
+            // Append real bookings as trips
+            bikeBookings.forEach(b => {
+                if (b.status === 'cancelled') return;
+                const durationHrs = parseFloat(b.duration) || 3;
+                const distance = Math.round(durationHrs * 15);
+                tripLogs.unshift({ // prepend new ones
+                    rider: b.user || 'Customer',
+                    date: new Date(b.pickupTime).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
+                    duration: b.duration,
+                    distance: `${distance} KMs`,
+                    odoStart: currentOdo,
+                    odoEnd: currentOdo + distance,
+                    cost: b.price
+                });
+                currentOdo += distance;
+                travelingKMs += distance;
+            });
+
+            const mockTripEarnings = tripLogs.filter(t => !bikeBookings.some(b => b.user === t.rider)).reduce((sum, t) => sum + t.cost, 0);
+            const aggregateEarnings = totalEarnings + mockTripEarnings;
+            const aggregateBookingsCount = totalBookingsCount + mockRiders.length;
+
+            // Render DOM
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <!-- Bike Header Info Panel -->
+                <div class="bike-header-panel">
+                    <div class="bike-info">
+                        <img src="${bike.image}" alt="${bike.name}" class="bike-img">
+                        <div class="bike-details">
+                            <h2>${bike.name}</h2>
+                            <p><i class="fa-solid fa-id-card"></i> ${bike.regNumber} &middot; <i class="fa-solid fa-location-dot"></i> ${bike.area}, Hyderabad</p>
+                        </div>
+                    </div>
+                    <div class="owner-actions">
+                        <a href="listbike.html" class="btn"><i class="fa-solid fa-plus"></i> List Another</a>
+                        <a href="bike-details.html?bikeId=${bike.id}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> View Public Listing</a>
+                    </div>
+                </div>
+
+                <!-- Stats Overview Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Earnings</div>
+                        <div class="stat-val highlight">₹${aggregateEarnings.toLocaleString('en-IN')}</div>
+                        <div class="stat-desc">Earnings from all completed rides</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Bookings</div>
+                        <div class="stat-val">${aggregateBookingsCount}</div>
+                        <div class="stat-desc">Including ${bikeBookings.length} direct web bookings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Travelling List (Distance)</div>
+                        <div class="stat-val">${travelingKMs} KMs</div>
+                        <div class="stat-desc">Sum of distances ridden on trips</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Odometer Status</div>
+                        <div class="stat-val">${currentOdo.toLocaleString('en-IN')} KMs</div>
+                        <div class="stat-desc">Current odometer reading of the bike</div>
+                    </div>
+                </div>
+
+                <!-- Performance Chart (Chart.js) -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <i class="fa-solid fa-chart-line"></i> Booking &amp; Earnings Performance
+                        </div>
+                        <div style="font-size: 11px; color: var(--muted);">Last 7 Days</div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Lower Data Grid (Logs & History) -->
+                <div class="data-grid">
+                    <!-- Traveling List / Trip Logs -->
+                    <div class="data-card">
+                        <div class="data-card-header">
+                            <i class="fa-solid fa-route"></i> Traveling List / Trip Log
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Rider</th>
+                                        <th>Date</th>
+                                        <th>Distance</th>
+                                        <th>Odometer Log</th>
+                                        <th>Earning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${tripLogs.map(log => `
+                                        <tr>
+                                            <td><strong>${log.rider}</strong></td>
+                                            <td>${log.date}</td>
+                                            <td>${log.distance}</td>
+                                            <td>${log.odoStart} - ${log.odoEnd} KM</td>
+                                            <td style="color: var(--green); font-weight: bold;">₹${log.cost}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Registry -->
+                    <div class="data-card">
+                        <div class="data-card-header">
+                            <i class="fa-solid fa-receipt"></i> Booking History Logs
+                        </div>
+                        <div class="table-wrap">
+                            ${renderBookingsHistoryTable(bikeBookings)}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 3. Render Chart
+            renderChart(bikeBookings, mockRates[0]);
+        }
+
+        function renderBookingsHistoryTable(bookingsList) {
+            if (bookingsList.length === 0) {
+                return `<div class="no-data">No web bookings registered yet. When customers book your bike, bookings will log here.</div>`;
+            }
+
+            return `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book ID</th>
+                            <th>Rider</th>
+                            <th>Duration</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bookingsList.map(b => {
+                            let statusClass = 'status-completed';
+                            if (b.status === 'active') statusClass = 'status-active';
+                            else if (b.status === 'upcoming') statusClass = 'status-upcoming';
+                            else if (b.status === 'cancelled') statusClass = 'status-cancelled';
+
+                            return `
+                                <tr>
+                                    <td>#${b.bookingId}</td>
+                                    <td><strong>${b.user}</strong></td>
+                                    <td>${b.duration}</td>
+                                    <td style="color: var(--green); font-weight: bold;">₹${b.price}</td>
+                                    <td><span class="status-badge ${statusClass}">${b.status}</span></td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function renderChart(bookingsList, hourlyRate) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+
+            // Generate labels for the last 7 days
+            const labels = [];
+            const bookingCounts = [1, 0, 1, 1, 0, 1, 0]; // Base mock booking counts
+            const earnings = [480, 0, 850, 240, 0, 720, 0]; // Base mock earnings
+
+            const now = new Date();
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(now.getTime() - i * 24 * 60000);
+                labels.push(d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }));
+            }
+
+            // Merge real bookings into last 7 days chart data
+            bookingsList.forEach(b => {
+                if (b.status === 'cancelled') return;
+                const bDate = new Date(b.pickupTime);
+                const diffDays = Math.floor((now - bDate) / (1000 * 60 * 60 * 24));
+                if (diffDays >= 0 && diffDays < 7) {
+                    const idx = 6 - diffDays;
+                    bookingCounts[idx] += 1;
+                    earnings[idx] += parseInt(b.price || 0);
+                }
+            });
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            // Create a gorgeous gradient
+            const greenGradient = ctx.createLinearGradient(0, 0, 0, 250);
+            greenGradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
+            greenGradient.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Bookings (Count)',
+                            data: bookingCounts,
+                            backgroundColor: 'rgba(52, 211, 153, 0.85)',
+                            borderColor: '#34d399',
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            yAxisID: 'yCount',
+                        },
+                        {
+                            label: 'Money Earned (₹)',
+                            data: earnings,
+                            type: 'line',
+                            borderColor: '#10b981',
+                            backgroundColor: greenGradient,
+                            borderWidth: 3,
+                            pointBackgroundColor: '#ffffff',
+                            pointHoverRadius: 6,
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'yEarn',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#f0f6f4',
+                                font: {
+                                    family: 'DM Sans',
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            padding: 12,
+                            backgroundColor: '#0c1317',
+                            borderColor: 'rgba(16, 185, 129, 0.2)',
+                            borderWidth: 1,
+                            titleFont: { family: 'Syne', size: 12, weight: 'bold' },
+                            bodyFont: { family: 'DM Sans', size: 12 },
+                            titleColor: '#f0f6f4',
+                            bodyColor: '#809c95'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.02)'
+                            },
+                            ticks: {
+                                color: '#809c95',
+                                font: { family: 'DM Sans', size: 10 }
+                            }
+                        },
+                        yCount: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.02)'
+                            },
+                            ticks: {
+                                color: '#809c95',
+                                stepSize: 1,
+                                font: { family: 'DM Sans', size: 10 }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Booking Trips',
+                                color: 'rgba(52, 211, 153, 0.85)',
+                                font: { family: 'Syne', size: 10, weight: 'bold' }
+                            }
+                        },
+                        yEarn: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false, // only want grid lines for count
+                            },
+                            ticks: {
+                                color: '#809c95',
+                                font: { family: 'DM Sans', size: 10 },
+                                callback: function(value) { return '₹' + value; }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Earnings (INR)',
+                                color: '#10b981',
+                                font: { family: 'Syne', size: 10, weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
