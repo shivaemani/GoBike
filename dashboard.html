@@ -75,6 +75,7 @@
             background: var(--bg);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .topbar {
@@ -124,7 +125,128 @@
             height: 100%;
             object-fit: cover;
         }
+
+        /* Profile Menu Styles */
+        .profile-container {
+            position: relative;
+        }
+
+        .profile-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            width: 200px;
+            padding: 10px 0;
+            display: none;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .profile-menu.show {
+            display: flex;
+            animation: fadeInDown 0.2s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-menu-header {
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 5px;
+        }
+
+        .profile-menu-header h4 {
+            margin: 0 0 5px 0;
+            font-family: var(--ff-head);
+            color: var(--text);
+        }
+
+        .profile-menu-header p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .profile-menu a {
+            padding: 10px 20px;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .profile-menu a:hover {
+            background: var(--surface3);
+            color: var(--accent);
+        }
+
+        .profile-menu a i {
+            width: 15px;
+            text-align: center;
+        }
+
+        /* Map Section Styles */
+        .map-section {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .map-header h3 {
+            margin: 0;
+            font-family: var(--ff-head);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+        }
+
+        .map-header p {
+            margin: 5px 0 0 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .map-container {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            z-index: 1;
+        }
+
+        .leaflet-layer,
+        .leaflet-control-zoom-in,
+        .leaflet-control-zoom-out,
+        .leaflet-control-attribution {
+            filter: invert(90%) sepia(40%) hue-rotate(345deg) saturate(300%) brightness(70%) contrast(120%);
+        }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 
 <body>
@@ -160,22 +282,30 @@
 
             <div class="logo">
                 <i class="fa-solid fa-wallet"></i>
-                <h3>Wallet</h3>
+                <a href="wallet.html">
+                    <h3>Wallet</h3>
+                </a>
             </div>
 
             <div class="logo">
                 <i class="fa-solid fa-crown"></i>
-                <h3>Membership</h3>
+                <a href="membership.html">
+                    <h3>Membership</h3>
+                </a>
             </div>
 
             <div class="logo">
                 <i class="fa-solid fa-gear"></i>
-                <h3>Settings</h3>
+                <a href="settings.html">
+                    <h3>Settings</h3>
+                </a>
             </div>
 
             <div class="logo">
                 <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
+                <a href="support.html">
+                    <h3>Support</h3>
+                </a>
             </div>
 
             <div class="logo">
@@ -194,34 +324,106 @@
                         <i class="fa-solid fa-hand"></i>
                     </div>
 
-                    <div class="profile">
-                        <img src="shiva.png" alt="profile image">
+                    <div class="profile-container">
+                        <div class="profile" onclick="document.getElementById('profileMenu').classList.toggle('show')">
+                            <img src="shiva.png" alt="profile image">
+                        </div>
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <h4>Shiva Emani</h4>
+                                <p>shiva@example.com</p>
+                            </div>
+                            <a href="#" onclick="alert('Opening My Profile...'); return false;"><i
+                                    class="fa-solid fa-user"></i> My Profile</a>
+                            <a href="#" onclick="alert('Opening Settings...'); return false;"><i
+                                    class="fa-solid fa-gear"></i> Settings</a>
+                            <a href="#" onclick="alert('Opening Notifications...'); return false;"><i
+                                    class="fa-solid fa-bell"></i> Notifications</a>
+                            <div style="height: 1px; background: var(--border); margin: 5px 0;"></div>
+                            <a href="#" style="color: var(--red);"
+                                onclick="if(confirm('Are you sure you want to log out?')) { alert('Logged out successfully.'); } return false;"><i
+                                    class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                        </div>
                     </div>
                 </nav>
             </header>
 
-            <div class="Home" style="padding: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center; flex: 1; text-align: center;">
+            <div class="Home" style="margin: 20px 30px 20px 30px; padding: 25px 35px; background: linear-gradient(135deg, var(--surface2) 0%, rgba(255, 92, 26, 0.1) 100%); border-radius: var(--radius); border: 1px solid var(--border); border-left: 5px solid var(--accent); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; text-align: center;">
                 <b>
-                    <h1 style="font-family: var(--ff-head); font-size: 3rem; background: linear-gradient(135deg, #ffffff, var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;">India's #1 Bike Rental Service</h1>
+                    <h1 style="font-family: var(--ff-head); font-size: 2.5rem; background: linear-gradient(135deg, #ffffff, var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; margin-top: 0;">India's #1 Bike Rental Service</h1>
                 </b>
-                <p style="color: var(--muted); font-size: 1.2rem; max-width: 600px; line-height: 1.6; margin-bottom: 30px;">
+                <p style="color: var(--muted); font-size: 1.1rem; max-width: 600px; line-height: 1.5; margin: 0;">
                     Rent smart, ride fast, and earn passive income by listing your own bike. Access eco-friendly travel solutions anywhere in Hyderabad.
                 </p>
-                <div style="display: flex; gap: 20px;">
-                    <a href="findbike.html" style="text-decoration: none; padding: 15px 30px; background: var(--accent); color: var(--bg); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s; box-shadow: var(--shadow);" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='none';">Book a Ride</a>
-                    <a href="listbike.html" style="text-decoration: none; padding: 15px 30px; border: 2px solid var(--accent); color: var(--accent); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.1)';" onmouseout="this.style.background='transparent';">Rent Out Your Bike</a>
+                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                    <a href="findbike.html" style="text-decoration: none; padding: 12px 25px; background: var(--accent); color: var(--bg); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s; box-shadow: var(--shadow);" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='none';">Book a Ride</a>
+                    <a href="listbike.html" style="text-decoration: none; padding: 12px 25px; border: 2px solid var(--accent); color: var(--accent); font-family: var(--ff-body); font-weight: bold; border-radius: var(--radius); transition: 0.3s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.1)';" onmouseout="this.style.background='transparent';">Rent Out Your Bike</a>
                 </div>
+            </div>
+
+            <div class="map-section">
+                <div class="map-header">
+                    <h3><i class="fa-solid fa-location-crosshairs"></i> Nearby Bikes & Live Location</h3>
+                    <p>Find available bikes near you instantly</p>
+                </div>
+                <div id="liveMap" class="map-container"></div>
             </div>
         </div>
     </div>
-    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="notifications.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
             const currentUser = localStorage.getItem('currentUser') || 'Shiva';
-            const greetingEl = document.getElementById('welcomeGreeting');
+            const greetingEl = document.querySelector('.welcome h2'); // Fixed to use querySelector since no ID exists
             if (greetingEl) {
                 greetingEl.textContent = `Hello, ${currentUser} !`;
+            }
+
+            const userLat = 12.9716;
+            const userLng = 77.5946;
+
+            const map = L.map('liveMap').setView([userLat, userLng], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const userIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#22c55e;width:15px;height:15px;border-radius:50%;border:2px solid white;box-shadow:0 0 10px rgba(34,197,94,0.8);'></div>",
+                iconSize: [15, 15],
+                iconAnchor: [7, 7]
+            });
+            L.marker([userLat, userLng], { icon: userIcon }).addTo(map).bindPopup("<b>You are here</b><br>Live Location").openPopup();
+
+            const bikeIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: "<div style='background-color:#ff5c1a;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;border:2px solid #fff;box-shadow:0 0 10px rgba(255,92,26,0.6);'><i class='fa-solid fa-motorcycle'></i></div>",
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+
+            const bikeLocations = [
+                [userLat + 0.005, userLng + 0.005],
+                [userLat - 0.003, userLng + 0.008],
+                [userLat + 0.007, userLng - 0.004],
+                [userLat - 0.006, userLng - 0.006],
+                [userLat + 0.002, userLng - 0.008]
+            ];
+
+            bikeLocations.forEach((loc, index) => {
+                L.marker(loc, { icon: bikeIcon }).addTo(map).bindPopup(`<b>Available Bike #${index + 1}</b><br>0.${Math.floor(Math.random() * 9) + 1} km away<br><button style='margin-top:5px;padding:4px 8px;background:#ff5c1a;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Book Now</button>`);
+            });
+        });
+
+        // Close profile menu if clicked outside
+        window.addEventListener('click', function (e) {
+            const menu = document.getElementById('profileMenu');
+            const profileBtn = document.querySelector('.profile');
+            if (menu && menu.classList.contains('show') && !menu.contains(e.target) && !profileBtn.contains(e.target)) {
+                menu.classList.remove('show');
             }
         });
     </script>

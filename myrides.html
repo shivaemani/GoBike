@@ -379,82 +379,14 @@
 
 <body>
     <div class="container">
-        <aside>
-            <div class="logo">
-                <i class="fa-solid fa-bicycle"></i>
-                <a href="dashboard.html">
-                    <h2>GoBike</h2>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <a href="findbike.html">
-                    <h3>Find Bike</h3>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-road"></i>
-                <a href="myrides.html">
-                    <h3>My Rides</h3>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-circle-plus"></i>
-                <a href="listbike.html">
-                    <h3>List Your Bike</h3>
-                </a>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-wallet"></i>
-                <h3>Wallet</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-crown"></i>
-                <h3>Membership</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-gear"></i>
-                <h3>Settings</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="Index.html">
-                    <h3>Logout</h3>
-                </a>
-            </div>
-        </aside>
-
-        <div class="main">
-            <header class="topbar">
-                <nav class="nav-top">
-                    <div class="welcome">
-                        <h2 id="welcomeGreeting">Hello, Shiva !</h2>
-                        <i class="fa-solid fa-hand"></i>
-                    </div>
-
-                    <div class="profile">
-                        <img src="shiva.png" alt="profile image">
-                    </div>
-                </nav>
-            </header>
-
-            <div class="content-area">
-                <div class="section-header">
-                    <h1>My Rides</h1>
-                    <button class="btn" onclick="location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book New Ride</button>
+        <div class="content-area">
+            <div class="section-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                    <h1 style="margin: 0;">My Rides</h1>
                 </div>
+                <button class="btn" onclick="location.href='findbike.html'"><i class="fa-solid fa-plus"></i> Book New Ride</button>
+            </div>
 
                 <h2 style="font-family: var(--ff-head); margin-bottom: 20px; font-size: 1.3rem; color: var(--text);">
                     Active &amp; Upcoming</h2>
@@ -577,7 +509,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
     <script src="notifications.js"></script>

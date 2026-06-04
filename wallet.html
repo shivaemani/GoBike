@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Wallet - GoBike</title>
+    <style>
+        /* Base styles */
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --surface2: #1c1c27;
+            --surface3: #242433;
+            --accent: #ff5c1a;
+            --accent2: #ff8c42;
+            --green: #22c55e;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --text: #f0f0f8;
+            --muted: #8888aa;
+            --border: rgba(255, 255, 255, 0.07);
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
+            --header-h: 130px;
+            --ff-head: 'Syne', sans-serif;
+            --ff-body: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text);
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        aside {
+            width: 300px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--surface);
+            color: var(--text);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            transition: 0.2s;
+        }
+
+        .logo:hover {
+            background: var(--surface3);
+        }
+
+        .logo h2,
+        .logo h3 {
+            margin: 0;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo a:hover {
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            background-color: var(--surface2);
+            padding: 0 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome h2 {
+            margin: 0;
+            font-family: var(--ff-head);
+        }
+
+        .welcome i {
+            color: var(--amber);
+            font-size: 20px;
+        }
+
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--ff-body);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+            background: var(--surface3);
+        }
+
+        /* Wallet Specific Styles */
+        .content-area {
+            padding: 40px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wallet-header h1 {
+            font-family: var(--ff-head);
+            font-size: 2.2rem;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff, var(--muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .wallet-card-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+
+        .balance-card {
+            background: linear-gradient(145deg, var(--surface2), var(--surface));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .balance-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(255, 92, 26, 0.2);
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .balance-label {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .balance-amount {
+            font-family: var(--ff-head);
+            font-size: 4rem;
+            margin: 0 0 25px 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .balance-amount span {
+            font-size: 2.5rem;
+            color: var(--green);
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--ff-body);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 92, 26, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--surface3);
+            border-color: var(--text);
+            box-shadow: none;
+        }
+
+        .quick-actions {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .quick-actions h3 {
+            margin: 0;
+            font-family: var(--ff-head);
+            font-size: 1.5rem;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            height: 100%;
+        }
+
+        .action-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .action-item i {
+            font-size: 2rem;
+            color: var(--accent);
+            transition: 0.3s ease;
+        }
+
+        .action-item:hover {
+            background: var(--surface3);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .action-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .transactions-section {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-top: 10px;
+        }
+
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .transactions-header h3 {
+            margin: 0;
+            font-family: var(--ff-head);
+            font-size: 1.5rem;
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .transaction-item:hover {
+            background: var(--surface3);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .tx-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tx-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .tx-icon.credit {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .tx-icon.debit {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .tx-meta h4 {
+            margin: 0 0 6px 0;
+            font-family: var(--ff-head);
+            font-size: 1.1rem;
+        }
+
+        .tx-meta p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .tx-amount {
+            text-align: right;
+            font-family: var(--ff-head);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .tx-amount.credit {
+            color: var(--green);
+        }
+
+        .tx-amount.debit {
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <header class="topbar">
+                <nav class="nav-top">
+                    <div class="welcome">
+                        <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                        <h2>Hello, Shiva !</h2>
+                        <i class="fa-solid fa-hand"></i>
+                    </div>
+
+                    <div class="profile">
+                        <img src="shiva.png" alt="profile image">
+                    </div>
+                </nav>
+            </header>
+
+            <div class="content-area">
+                <div class="wallet-header">
+                    <h1>My Wallet</h1>
+                </div>
+
+                <div class="wallet-card-container">
+                    <div class="balance-card">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount">
+                            <span>₹</span> 2,450.00
+                        </div>
+                        <div class="wallet-actions">
+                            <button class="btn" onclick="alert('Add Money Dialog')"><i class="fa-solid fa-plus"></i> Add
+                                Money</button>
+                            <button class="btn btn-outline" onclick="alert('Withdraw Dialog')"><i
+                                    class="fa-solid fa-building-columns"></i> Withdraw</button>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-grid">
+                            <div class="action-item" onclick="alert('Auto Reload Settings')">
+                                <i class="fa-solid fa-rotate"></i>
+                                <span>Auto Reload</span>
+                            </div>
+                            <div class="action-item" onclick="alert('Scan to Pay')">
+                                <i class="fa-solid fa-qrcode"></i>
+                                <span>Scan & Pay</span>
+                            </div>
+                            <div class="action-item" onclick="alert('Coupons & Offers')">
+                                <i class="fa-solid fa-ticket"></i>
+                                <span>Offers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transactions-section">
+                    <div class="transactions-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="#" style="color: var(--accent); text-decoration: none;">View All</a>
+                    </div>
+
+                    <div class="transaction-list">
+                        <div class="transaction-item">
+                            <div class="tx-info">
+                                <div class="tx-icon debit">
+                                    <i class="fa-solid fa-motorcycle"></i>
+                                </div>
+                                <div class="tx-meta">
+                                    <h4>Ride Payment: Honda Activa 6G</h4>
+                                    <p>Today, 02:45 PM • ID: #TXN-93821</p>
+                                </div>
+                            </div>
+                            <div class="tx-amount debit">- ₹320.00</div>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="tx-info">
+                                <div class="tx-icon credit">
+                                    <i class="fa-solid fa-money-bill-transfer"></i>
+                                </div>
+                                <div class="tx-meta">
+                                    <h4>Added Money to Wallet</h4>
+                                    <p>Yesterday, 10:15 AM • UPI: shiva@okbank</p>
+                                </div>
+                            </div>
+                            <div class="tx-amount credit">+ ₹1,500.00</div>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="tx-info">
+                                <div class="tx-icon debit">
+                                    <i class="fa-solid fa-motorcycle"></i>
+                                </div>
+                                <div class="tx-meta">
+                                    <h4>Ride Payment: Yamaha R15 V4</h4>
+                                    <p>05 May 2026, 06:20 PM • ID: #TXN-91223</p>
+                                </div>
+                            </div>
+                            <div class="tx-amount debit">- ₹1,200.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
