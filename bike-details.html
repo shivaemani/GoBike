@@ -5,16 +5,210 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="theme.css">
-    <title>Bike Listing Details — GoBike</title>
+    <title>Bike Details — GoBike</title>
     <style>
-        body {
-            font-family: var(--ff-body);
-            background: var(--bg);
-            color: var(--text);
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .main-panel { overflow-y: auto; }
+
+        .content-area {
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
+
+        .error-card {
+            background: rgba(239,68,68,0.05);
+            border: 1px dashed var(--red);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .error-card h2 { color: var(--red); font-family: var(--ff-head); margin-bottom: 15px; }
+
+        .btn-back {
+            background: linear-gradient(135deg, var(--violet), #6d28d9);
+            color: #fff;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-family: var(--ff-body);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover { transform: translateY(-2px); box-shadow: var(--glow-v); }
+
+        .bike-header-card {
+            background: var(--surface);
+            border: 1px solid var(--border-v);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .bike-hero-img {
+            width: 200px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-v);
+        }
+
+        .bike-header-info { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+
+        .bike-header-info h1 {
+            font-family: var(--ff-head);
+            font-size: 2rem;
+            margin: 0;
+            background: linear-gradient(135deg, #fff, var(--violet3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bike-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(124,58,237,0.1);
+            color: var(--violet3);
+            width: fit-content;
+        }
+
+        .bike-reg-number { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 22px;
+        }
+
+        @media (max-width: 1024px) { .details-grid { grid-template-columns: 1fr; } }
+
+        .details-col { display: flex; flex-direction: column; gap: 22px; }
+
+        .details-card {
+            background: var(--surface);
+            border: 1px solid var(--border-v);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s;
+        }
+
+        .details-card:hover { border-color: var(--border-v2); }
+
+        .details-card-header {
+            font-family: var(--ff-head);
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--violet3);
+            border-bottom: 1px solid var(--border-v);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .details-card-header i { color: var(--violet2); }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 13px;
+        }
+
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--muted); font-weight: 500; }
+        .info-val { font-weight: 600; color: var(--text); }
+
+        .history-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--surface2);
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-v);
+            white-space: pre-line;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .bookings-table-wrap { overflow-x: auto; }
+
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .bookings-table th, .bookings-table td {
+            padding: 11px;
+            border-bottom: 1px solid var(--border-v);
+        }
+
+        .bookings-table th {
+            color: var(--muted);
+            font-family: var(--ff-head);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .bookings-table tr:last-child td { border-bottom: none; }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-active   { background: rgba(20,184,166,0.12); color: var(--teal2); }
+        .status-upcoming { background: rgba(124,58,237,0.12); color: var(--violet3); }
+        .status-completed { background: rgba(255,255,255,0.05); color: var(--text); }
+
+        .no-data { color: var(--muted); text-align: center; padding: 20px 0; font-size: 13px; }
+
+        .local-notif-list { display: flex; flex-direction: column; gap: 10px; max-height: 220px; overflow-y: auto; padding-right: 4px; }
+        .local-notif-list::-webkit-scrollbar { width: 3px; }
+
+        .local-notif-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border-v);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .local-notif-icon { color: var(--violet2); font-size: 14px; }
+        .local-notif-text { flex: 1; }
+        .local-notif-time { font-size: 9px; color: var(--muted); margin-top: 4px; }
+    </style>
+</head>
+
+<body>
 
         .container {
             display: flex;
@@ -405,85 +599,66 @@
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <aside>
-            <div class="logo">
-                <i class="fa-solid fa-bicycle"></i>
-                <a href="dashboard.html">
-                    <h2>GoBike</h2>
-                </a>
+    <div class="page-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><i class="fa-solid fa-bicycle"></i></div>
+                <a href="dashboard.html" class="sidebar-brand-text">GoBike</a>
             </div>
 
-            <div class="logo">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <a href="findbike.html">
-                    <h3>Find Bike</h3>
-                </a>
-            </div>
+            <div class="nav-section-label">Main Menu</div>
 
-            <div class="logo">
-                <i class="fa-solid fa-road"></i>
-                <a href="myrides.html">
-                    <h3>My Rides</h3>
-                </a>
-            </div>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i><span>Dashboard</span>
+            </a>
+            <a href="findbike.html" class="nav-item">
+                <i class="fa-solid fa-magnifying-glass"></i><span>Find a Bike</span>
+            </a>
+            <a href="myrides.html" class="nav-item">
+                <i class="fa-solid fa-road"></i><span>My Rides</span>
+            </a>
 
-            <div class="logo">
-                <i class="fa-solid fa-circle-plus"></i>
-                <a href="listbike.html">
-                    <h3>List Your Bike</h3>
-                </a>
-            </div>
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Partner</div>
 
-            <div class="logo">
-                <i class="fa-solid fa-wallet"></i>
-                <h3>Wallet</h3>
-            </div>
+            <a href="listbike.html" class="nav-item">
+                <i class="fa-solid fa-circle-plus"></i><span>List Your Bike</span>
+            </a>
 
-            <div class="logo">
-                <i class="fa-solid fa-crown"></i>
-                <h3>Membership</h3>
-            </div>
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Account</div>
 
-            <div class="logo">
-                <i class="fa-solid fa-gear"></i>
-                <h3>Settings</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="Index.html">
-                    <h3>Logout</h3>
-                </a>
-            </div>
+            <a href="wallet.html" class="nav-item"><i class="fa-solid fa-wallet"></i><span>Wallet</span></a>
+            <a href="membership.html" class="nav-item"><i class="fa-solid fa-crown"></i><span>Membership</span></a>
+            <a href="settings.html" class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <a href="support.html" class="nav-item"><i class="fa-solid fa-headset"></i><span>Support</span></a>
         </aside>
 
-        <div class="main">
+        <!-- MAIN -->
+        <div class="main-panel">
             <header class="topbar">
-                <nav class="nav-top">
-                    <div class="welcome">
-                        <h2>Bike Hub</h2>
-                        <i class="fa-solid fa-chart-line"></i>
+                <div class="topbar-left">
+                    <div class="topbar-title">Bike Hub</div>
+                    <div class="topbar-sub"><span class="live-dot"></span>Bike details &amp; booking history</div>
+                </div>
+                <div class="user-panel">
+                    <div class="user-avatar" id="userAvatar">R</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Rider</div>
+                        <div class="user-role"><i class="fa-solid fa-circle" style="font-size:6px;margin-right:4px;"></i>Rider Account</div>
                     </div>
-
-                    <div class="profile">
-                        <img src="shiva.png" alt="profile image">
-                    </div>
-                </nav>
+                    <a href="Index.html" class="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
             </header>
 
             <div class="content-area">
-                <!-- Dynamic Content Will Be Inserted Here -->
                 <div id="dynamicContent">
-                    <div style="text-align: center; padding: 50px;">
-                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; color: var(--accent);"></i>
-                        <p style="margin-top: 15px; color: var(--muted);">Loading bike details...</p>
+                    <div style="text-align:center;padding:50px;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size:32px;color:var(--violet2);"></i>
+                        <p style="margin-top:15px;color:var(--muted);">Loading bike details...</p>
                     </div>
                 </div>
             </div>
@@ -493,21 +668,21 @@
     <script src="notifications.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Rider';
+            const userNameEl = document.getElementById('userName');
+            if (userNameEl) userNameEl.textContent = currentUser;
+            const avatarEl = document.getElementById('userAvatar');
+            if (avatarEl) avatarEl.textContent = currentUser.charAt(0).toUpperCase();
+
             const urlParams = new URLSearchParams(window.location.search);
             const bikeId = urlParams.get('bikeId');
 
-            if (!bikeId) {
-                renderError('No Bike ID specified in the URL.');
-                return;
-            }
+            if (!bikeId) { renderError('No Bike ID specified in the URL.'); return; }
 
             const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
             const bike = listedBikes.find(b => b.id === bikeId);
 
-            if (!bike) {
-                renderError('Listed Bike could not be found or has been removed.');
-                return;
-            }
+            if (!bike) { renderError('Listed Bike could not be found or has been removed.'); return; }
 
             renderBikeDetails(bike);
         });

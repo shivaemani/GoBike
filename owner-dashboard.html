@@ -24,52 +24,104 @@
             height: 100vh;
         }
 
+        /* ── SIDEBAR ── */
         aside {
-            width: 300px;
+            width: 260px;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            background-color: var(--surface);
-            color: var(--text);
+            background: var(--surface);
             border-right: 1px solid var(--border);
-            padding: 20px;
+            padding: 24px 16px;
+            gap: 4px;
+            overflow-y: auto;
+            flex-shrink: 0;
             box-sizing: border-box;
         }
 
-        .logo {
+        .sidebar-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 10px 15px;
-            border-radius: var(--radius);
-            transition: 0.2s;
+            gap: 12px;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
         }
 
-        .logo:hover {
-            background: var(--surface3);
+        .sidebar-brand i {
+            color: var(--accent);
+            font-size: 26px;
+            filter: drop-shadow(0 0 6px rgba(16,185,129,0.4));
         }
 
-        .logo h2,
-        .logo h3 {
+        .sidebar-brand h2 {
+            font-family: var(--ff-head);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
             margin: 0;
         }
 
-        .logo i {
-            color: var(--accent);
-            font-size: 24px;
+        .sidebar-brand a { text-decoration: none; color: inherit; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--muted);
         }
 
-        .logo a {
-            text-decoration: none;
+        .nav-item:hover {
+            background: var(--surface3);
             color: var(--text);
         }
 
-        .logo a:hover {
-            cursor: pointer;
-            color: var(--accent);
+        .nav-item.active {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent2);
+            border: 1px solid rgba(16,185,129,0.15);
         }
 
+        .nav-item i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            color: inherit;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover i, .nav-item.active i { color: var(--accent); }
+
+        .nav-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            padding: 12px 14px 4px;
+            opacity: 0.6;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+
+        .nav-spacer { flex: 1; }
+
+        /* ── MAIN ── */
         .main {
             flex: 1;
             background: var(--bg);
@@ -78,53 +130,95 @@
             overflow-y: auto;
         }
 
+        /* ── TOPBAR ── */
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 72px;
             background-color: var(--surface2);
-            padding: 0 30px;
+            padding: 0 28px;
             border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
 
-        .nav-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .welcome {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .welcome h2 {
-            margin: 0;
+        .topbar-left h2 {
             font-family: var(--ff-head);
-        }
-
-        .welcome i {
-            color: var(--accent);
             font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
-        .profile {
-            width: 45px;
-            height: 45px;
+        .topbar-left p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ── USER PANEL ── */
+        .user-panel {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid var(--accent);
+            background: rgba(16, 185, 129, 0.12);
+            border: 2px solid rgba(16,185,129,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--accent);
+            font-family: var(--ff-head);
+            font-weight: 800;
+            flex-shrink: 0;
         }
 
-        .profile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .user-info { display: flex; flex-direction: column; }
+
+        .user-name {
+            font-family: var(--ff-head);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: var(--accent2);
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            color: #ef4444;
+            font-size: 13px;
+            font-family: var(--ff-body);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
         }
 
         /* Content Styles */
@@ -429,70 +523,70 @@
     <div class="container">
         <!-- Sidebar Navigation -->
         <aside>
-            <div class="logo">
+            <div class="sidebar-brand">
                 <i class="fa-solid fa-bicycle"></i>
-                <a href="portal-select.html">
-                    <h2>GoBike Partner</h2>
-                </a>
+                <a href="portal-select.html"><h2>GoBike Partner</h2></a>
             </div>
 
-            <div class="logo">
-                <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
-                <a href="#" id="sidebarDash">
-                    <h3>Dashboard</h3>
-                </a>
-            </div>
+            <div class="nav-section-label">Partner Menu</div>
 
-            <div class="logo">
-                <i class="fa-solid fa-road"></i>
-                <a href="myrides.html">
-                    <h3>Switch to Rider</h3>
-                </a>
-            </div>
+            <a href="#" id="sidebarDash" class="nav-item active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
 
-            <div class="logo">
+            <a href="listbike.html" class="nav-item">
                 <i class="fa-solid fa-circle-plus"></i>
-                <a href="listbike.html">
-                    <h3>List Another Bike</h3>
-                </a>
-            </div>
+                <span>List Another Bike</span>
+            </a>
 
-            <div class="logo">
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Switch Portal</div>
+
+            <a href="portal-select.html" class="nav-item">
+                <i class="fa-solid fa-grip"></i>
+                <span>Portal Select</span>
+            </a>
+
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Account</div>
+
+            <a href="#" class="nav-item">
                 <i class="fa-solid fa-wallet"></i>
-                <h3>Earnings History</h3>
-            </div>
+                <span>Earnings History</span>
+            </a>
 
-            <div class="logo">
+            <a href="#" class="nav-item">
                 <i class="fa-solid fa-gear"></i>
-                <h3>Settings</h3>
-            </div>
+                <span>Settings</span>
+            </a>
 
-            <div class="logo">
+            <a href="#" class="nav-item">
                 <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
-            </div>
-
-            <div class="logo">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="Index.html">
-                    <h3>Logout</h3>
-                </a>
-            </div>
+                <span>Support</span>
+            </a>
         </aside>
 
         <!-- Main Body -->
         <div class="main">
             <header class="topbar">
-                <nav class="nav-top">
-                    <div class="welcome">
-                        <h2>Partner Dashboard</h2>
-                        <i class="fa-solid fa-handshake"></i>
-                    </div>
+                <div class="topbar-left">
+                    <h2>Partner Dashboard</h2>
+                    <p>Manage your bike listings, earnings &amp; bookings</p>
+                </div>
 
-                    <div class="profile">
-                        <img src="shiva.png" alt="profile image">
+                <!-- USER PANEL -->
+                <div class="user-panel">
+                    <div class="user-avatar" id="userAvatar">S</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Owner</div>
+                        <div class="user-role"><i class="fa-solid fa-circle" style="font-size:7px; margin-right:4px;"></i>Partner Account</div>
                     </div>
-                </nav>
+                    <a href="Index.html" class="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </div>
             </header>
 
             <div class="content-area" id="mainContent">
@@ -510,20 +604,36 @@
         let chartInstance = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const bikeId = urlParams.get('bikeId');
+            // Populate user panel
+            const currentUser = localStorage.getItem('currentUser') || 'Owner';
+            const userNameEl = document.getElementById('userName');
+            if (userNameEl) userNameEl.textContent = currentUser;
+            const avatarEl = document.getElementById('userAvatar');
+            if (avatarEl && currentUser) avatarEl.textContent = currentUser.charAt(0).toUpperCase();
 
-            if (!bikeId) {
-                renderError('No listed Bike ID provided.');
-                return;
-            }
+            const urlParams = new URLSearchParams(window.location.search);
+            let bikeId = urlParams.get('bikeId');
 
             const listedBikes = JSON.parse(localStorage.getItem('listedBikes') || '[]');
-            const bike = listedBikes.find(b => b.id === bikeId);
+            let bike = null;
+
+            if (bikeId) {
+                bike = listedBikes.find(b => b.id === bikeId && b.ownerName === currentUser);
+            }
 
             if (!bike) {
-                renderError('Listed Bike could not be found.');
-                return;
+                // Try to auto-select the first bike owned by this user
+                const userBike = listedBikes.find(b => b.ownerName === currentUser);
+                if (userBike) {
+                    bikeId = userBike.id;
+                    bike = userBike;
+                    // Update URL query parameters cleanly
+                    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?bikeId=' + bikeId;
+                    window.history.replaceState({ path: newUrl }, '', newUrl);
+                } else {
+                    renderNoBikesError();
+                    return;
+                }
             }
 
             // Sync sidebar link
@@ -532,6 +642,18 @@
 
             renderDashboard(bike);
         });
+
+        function renderNoBikesError() {
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <div class="error-card" style="text-align: center; padding: 40px; background: rgba(12, 19, 23, 0.6); border: 1px solid var(--border); border-radius: var(--radius); max-width: 480px; margin: 50px auto; box-shadow: var(--shadow);">
+                    <i class="fa-solid fa-bicycle" style="font-size: 48px; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h2 style="font-family: var(--ff-head); font-weight: 800; margin-bottom: 10px;">No Bikes Listed Yet</h2>
+                    <p style="color: var(--muted); margin-bottom: 20px; font-size: 14px;">You haven't listed any bikes under your partner account yet. Start earning today by renting out your bike!</p>
+                    <a href="listbike.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 12px 24px; font-weight: bold; border-radius: 8px;"><i class="fa-solid fa-plus"></i> List Your First Bike</a>
+                </div>
+            `;
+        }
 
         function renderError(message) {
             const content = document.getElementById('mainContent');
