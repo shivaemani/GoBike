@@ -4,181 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>Support - GoBike</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <title>Customer Support — GoBike</title>
+    <meta name="description" content="Get help with GoBike payments, active bookings, refunds, or damages. Ask questions, submit ticket requests, or start a live support chat.">
     <style>
-        /* Base styles */
-        :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface2: #1c1c27;
-            --surface3: #242433;
-            --accent: #ff5c1a;
-            --accent2: #ff8c42;
-            --green: #22c55e;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --text: #f0f0f8;
-            --muted: #8888aa;
-            --border: rgba(255, 255, 255, 0.07);
-            --radius: 16px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glow: 0 0 40px rgba(255, 92, 26, 0.15);
-            --ff-head: 'Syne', sans-serif;
-            --ff-body: 'DM Sans', sans-serif;
-        }
+        .page-container { overflow: hidden; }
 
-        body {
-            font-family: var(--ff-body);
-            background: var(--bg);
-            color: var(--text);
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        .main {
-            flex: 1;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-            background-color: var(--surface2);
-            padding: 0 40px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .nav-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .welcome {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .back-btn {
-            background: transparent;
-            color: var(--muted);
-            border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--ff-body);
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .back-btn:hover {
-            color: var(--text);
-            background: var(--surface3);
-        }
-
-        .welcome h2 {
-            margin: 0;
-            font-family: var(--ff-head);
-        }
-
-        .profile {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid var(--accent);
-        }
-
-        .profile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Support Specific Styles */
+        /* ── CONTENT AREA ── */
         .content-area {
-            padding: 50px 10%;
             flex: 1;
             overflow-y: auto;
+            padding: 30px 32px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 28px;
         }
+
+        .content-area::-webkit-scrollbar { width: 5px; }
+        .content-area::-webkit-scrollbar-track { background: transparent; }
+        .content-area::-webkit-scrollbar-thumb { background: var(--border-v); border-radius: 3px; }
 
         .support-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 15px;
             width: 100%;
-            max-width: 800px;
         }
 
         .support-header h1 {
             font-family: var(--ff-head);
-            font-size: 3rem;
-            margin: 0 0 15px 0;
-            background: linear-gradient(135deg, #ffffff, var(--muted));
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #ffffff, var(--violet3));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .support-header p {
-            color: var(--muted);
-            font-size: 1.2rem;
+            color: rgba(226, 232, 240, 0.45);
+            font-size: 14px;
             margin: 0;
         }
 
         .support-grid {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
-            gap: 50px;
+            gap: 28px;
             width: 100%;
-            max-width: 1200px;
+        }
+
+        @media (max-width: 1000px) {
+            .support-grid { grid-template-columns: 1fr; }
         }
 
         .support-card {
-            background: var(--surface2);
-            border: 1px solid var(--border);
+            background: var(--surface);
+            border: 1px solid var(--border-v);
             border-radius: var(--radius);
-            padding: 40px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .support-card:hover {
+            border-color: var(--border-v2);
         }
 
         .support-card h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             font-family: var(--ff-head);
-            font-size: 1.8rem;
-            color: var(--text);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .support-card h3 i {
-            color: var(--accent);
+            color: var(--teal2);
         }
 
         .form-group {
@@ -188,20 +98,22 @@
         }
 
         .form-group label {
-            font-size: 0.95rem;
-            color: var(--muted);
-            font-weight: bold;
+            font-size: 12px;
+            color: rgba(226, 232, 240, 0.45);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .form-group input, .form-group select, .form-group textarea {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface2);
+            border: 1px solid var(--border-v);
             color: var(--text);
-            padding: 15px;
+            padding: 12px 14px;
             border-radius: 8px;
             font-family: var(--ff-body);
-            font-size: 1rem;
-            transition: 0.3s ease;
+            font-size: 13.5px;
+            transition: all 0.3s ease;
             outline: none;
             width: 100%;
             box-sizing: border-box;
@@ -209,83 +121,85 @@
 
         .form-group textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 100px;
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(255, 92, 26, 0.2);
+            border-color: var(--violet2);
+            box-shadow: var(--glow-v);
+            background: var(--surface3);
         }
 
         .btn {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--violet), #6d28d9);
             color: white;
             border: none;
-            padding: 16px 30px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-family: var(--ff-body);
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 13.5px;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 92, 26, 0.3);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
             margin-top: 10px;
-            display: flex;
+            display: inline-flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn:hover {
-            background: var(--accent2);
+            box-shadow: var(--glow-v);
             transform: translateY(-2px);
-            box-shadow: var(--glow);
         }
 
         /* FAQ Accordion */
         .faq-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .faq-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface2);
+            border: 1px solid var(--border-v);
             border-radius: 12px;
             overflow: hidden;
-            transition: 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--border-v2);
         }
 
         .faq-question {
-            padding: 20px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 13.5px;
             font-family: var(--ff-head);
+            color: #fff;
             user-select: none;
-            transition: 0.3s;
+            transition: all 0.2s;
         }
 
         .faq-question:hover {
-            color: var(--accent);
+            color: var(--violet3);
         }
 
         .faq-question i {
             transition: transform 0.3s ease;
-            color: var(--muted);
+            color: rgba(226, 232, 240, 0.4);
+            font-size: 12px;
         }
 
         .faq-item.active .faq-question i {
             transform: rotate(180deg);
-            color: var(--accent);
+            color: var(--teal2);
         }
 
         .faq-answer {
@@ -293,7 +207,8 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
-            color: var(--muted);
+            color: rgba(226, 232, 240, 0.5);
+            font-size: 12.5px;
             line-height: 1.6;
         }
 
@@ -305,53 +220,102 @@
         /* Quick contact pills */
         .contact-pills {
             display: flex;
-            gap: 15px;
-            margin-top: 30px;
+            gap: 12px;
+            margin-top: 24px;
             flex-wrap: wrap;
         }
 
         .contact-pill {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 15px 25px;
-            border-radius: 50px;
-            display: flex;
+            background: var(--surface2);
+            border: 1px solid var(--border-v);
+            padding: 12px 20px;
+            border-radius: 30px;
+            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            font-weight: bold;
-            color: var(--text);
+            gap: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #fff;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .contact-pill:hover {
             background: var(--surface3);
-            border-color: var(--accent);
+            border-color: var(--violet2);
             transform: translateY(-3px);
+            box-shadow: var(--glow-v);
         }
 
         .contact-pill i {
-            color: var(--accent);
-            font-size: 1.2rem;
+            color: var(--teal2);
+            font-size: 13px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <!-- NO SIDEBAR for Support Page -->
-        <div class="main">
-            <header class="topbar">
-                <nav class="nav-top">
-                    <div class="welcome">
-                        <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
-                        <h2>Customer Support</h2>
-                    </div>
+    <div class="page-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><i class="fa-solid fa-bicycle"></i></div>
+                <a href="dashboard.html" class="sidebar-brand-text">GoBike</a>
+            </div>
 
-                    <div class="profile" onclick="alert('Profile Options')">
-                        <img src="shiva.png" alt="profile image">
+            <div class="nav-section-label">Main Menu</div>
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i><span>Dashboard</span>
+            </a>
+            <a href="findbike.html" class="nav-item">
+                <i class="fa-solid fa-magnifying-glass"></i><span>Find a Bike</span>
+            </a>
+            <a href="myrides.html" class="nav-item">
+                <i class="fa-solid fa-road"></i><span>My Rides</span>
+            </a>
+
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Partner</div>
+
+            <a href="listbike.html" class="nav-item">
+                <i class="fa-solid fa-circle-plus"></i><span>List Your Bike</span>
+            </a>
+
+            <div class="nav-divider"></div>
+            <div class="nav-section-label">Account</div>
+
+            <a href="wallet.html" class="nav-item">
+                <i class="fa-solid fa-wallet"></i><span>Wallet</span>
+            </a>
+            <a href="membership.html" class="nav-item">
+                <i class="fa-solid fa-crown"></i><span>Membership</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i><span>Settings</span>
+            </a>
+            <a href="support.html" class="nav-item active">
+                <i class="fa-solid fa-headset"></i><span>Support</span>
+            </a>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="main-panel">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="topbar-title" id="welcomeGreeting">Support</div>
+                    <div class="topbar-sub"><span class="live-dot"></span>24/7 Help and Support Hub</div>
+                </div>
+                <div class="user-panel">
+                    <div class="user-avatar" id="userAvatar">R</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Rider</div>
+                        <div class="user-role"><i class="fa-solid fa-circle" style="font-size:6px;margin-right:4px;"></i>Rider Account</div>
                     </div>
-                </nav>
+                    <a href="Index.html" class="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
             </header>
 
             <div class="content-area">
@@ -373,10 +337,10 @@
                                 <label>What do you need help with?</label>
                                 <select id="issueType" required>
                                     <option value="" disabled selected>Select an issue...</option>
-                                    <option value="payment">Payment & Refunds</option>
+                                    <option value="payment">Payment &amp; Refunds</option>
                                     <option value="booking">Active Booking Issue</option>
                                     <option value="bike">Bike Condition/Damage</option>
-                                    <option value="account">Account & Settings</option>
+                                    <option value="account">Account &amp; Settings</option>
                                     <option value="other">Other Inquiry</option>
                                 </select>
                             </div>
@@ -444,11 +408,29 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div><!-- end content-area -->
+        </div><!-- end main-panel -->
+    </div><!-- end page-container -->
 
+    <script src="notifications.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser') || 'Rider';
+
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (greetingEl) greetingEl.textContent = `Support Hub`;
+
+            const userNameEl = document.getElementById('userName');
+            if (userNameEl) userNameEl.textContent = currentUser;
+
+            const avatarEl = document.getElementById('userAvatar');
+            if (avatarEl && currentUser) avatarEl.textContent = currentUser.charAt(0).toUpperCase();
+
+            // Auto load customer name
+            const custNameEl = document.getElementById('custName');
+            if (custNameEl) custNameEl.value = currentUser;
+        });
+
         function submitForm(e) {
             e.preventDefault();
             const issueType = document.getElementById('issueType');
@@ -457,22 +439,20 @@
             if (issueType.value && desc.value) {
                 alert(`Thank you! Your support ticket regarding '${issueType.options[issueType.selectedIndex].text}' has been submitted successfully. Our team will contact you within 2 hours.`);
                 document.getElementById('supportForm').reset();
-                document.getElementById('custName').value = "Shiva Emani"; // Reset default
+                const currentUser = localStorage.getItem('currentUser') || 'Rider';
+                document.getElementById('custName').value = currentUser; 
             } else {
                 alert("Please fill out all required fields.");
             }
         }
 
         function toggleFaq(element) {
-            // Close all other FAQs
             const allItems = document.querySelectorAll('.faq-item');
             allItems.forEach(item => {
                 if(item !== element) {
                     item.classList.remove('active');
                 }
             });
-            
-            // Toggle current FAQ
             element.classList.toggle('active');
         }
 
